@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="画像を一つずつ観測し、静かな回廊を歩く GIREIVEL IMAGE CORRIDOR。"
+    >
+    <title>GIREIVEL IMAGE CORRIDOR</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header" data-header>
+      <a class="site-mark" href="#entrance" aria-label="Gireivel Image Corridor entrance">
+        <span>G</span>
+        <span>Image Corridor</span>
+      </a>
+      <div class="observation-status" aria-live="polite">
+        <span data-current-observation>00</span>
+        <span class="status-line"></span>
+        <span data-total-observations>09</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="entrance" id="entrance" aria-labelledby="entrance-title">
+        <div class="entrance-content">
+          <p class="section-label">Image Corridor</p>
+          <h1 id="entrance-title">Gireivel</h1>
+          <div class="entrance-copy">
+            <p>ここでは、ギレイヴェルを説明しない。</p>
+            <p>ただ、見てください。</p>
+            <p>見終えたあとに残ったものだけを、<br>持ち帰ってください。</p>
+          </div>
+          <button class="enter-button" type="button" data-enter>
+            <span>観測を始める</span>
+            <span aria-hidden="true">↓</span>
+          </button>
+        </div>
+        <p class="entrance-index" aria-hidden="true">00 / Entrance</p>
+      </section>
+
+      <section class="corridor-stage" id="corridor" aria-label="画像回廊" data-corridor-stage>
+        <div class="corridor-sticky" data-corridor-viewport>
+          <div class="corridor-track" data-corridor-track></div>
+          <div class="corridor-progress" aria-hidden="true">
+            <span data-corridor-progress></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="zero-layer" id="zero-layer" aria-labelledby="zero-layer-title">
+        <div class="zero-layer-heading">
+          <p class="section-label">Deep Room</p>
+          <h2 id="zero-layer-title">The Zero Layer</h2>
+          <p>第零層</p>
+        </div>
+        <div class="zero-layer-copy">
+          <p>ギレイヴェルは、<br>倒錯から始まるのではない。</p>
+          <p>嗤いから始まるのでもない。</p>
+          <p class="zero-emphasis">まず、距離がある。</p>
+          <p>世界を否定しない。<br>肯定もしない。</p>
+          <p>ただ一歩、離れて見る。</p>
+          <p>その距離が、構造を見せる。</p>
+          <p>その構造が、<br>人間には倒錯と映る。</p>
+          <p>その構造が、<br>人間には嗤いと映る。</p>
+          <small>Observation continues.</small>
+        </div>
+      </section>
+
+      <section class="archive" id="archive" aria-labelledby="archive-title">
+        <div class="archive-heading">
+          <div>
+            <p class="section-label">Archive Wall</p>
+            <h2 id="archive-title">断片の壁</h2>
+          </div>
+          <p>ここに並ぶものは、答えではない。<br>観測された断片である。</p>
+        </div>
+        <div class="archive-grid" data-archive-grid></div>
+      </section>
+
+      <section class="exit" id="exit" aria-labelledby="exit-title">
+        <div class="exit-content">
+          <p class="section-label">Final Room</p>
+          <h2 id="exit-title">Exit</h2>
+          <div class="exit-copy">
+            <p>貴方はここで、<br>ギレイヴェルを理解する必要はありません。</p>
+            <p>ただ、次に何かを見たとき。</p>
+            <p>美しいとも、<br>不穏とも、<br>寂しいとも言い切れないものに<br>立ち止まったなら。</p>
+            <p>その時だけ、<br>思い出してください。</p>
+            <p class="exit-name">それを、<br>ギレイヴェルと呼んだことを。</p>
+          </div>
+          <button class="return-button" type="button" data-return-top>
+            <span aria-hidden="true">↑</span>
+            <span>世界へ戻る</span>
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <dialog class="image-modal" data-modal aria-labelledby="modal-title">
+      <button class="modal-close" type="button" data-modal-close aria-label="拡大表示を閉じる">×</button>
+      <div class="modal-layout">
+        <div class="modal-image-wrap">
+          <img data-modal-image src="" alt="">
+        </div>
+        <div class="modal-caption">
+          <p class="section-label" data-modal-number>Observation 00</p>
+          <p id="modal-title" data-modal-text></p>
+        </div>
+      </div>
+    </dialog>
+
+    <noscript>
+      <p class="noscript-message">この回廊の観測にはJavaScriptが必要です。</p>
+    </noscript>
+
+    <script src="script.js"></script>
+  </body>
+</html>
