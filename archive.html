@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="GIREIVEL IMAGE CORRIDORで観測された九つの断片を収めるアーカイブ。"
+    >
+    <title>ARCHIVE WALL | GIREIVEL</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body class="archive-page">
+    <header class="site-header">
+      <a class="site-mark" href="index.html" aria-label="Gireivel Image Corridorへ戻る">
+        <span>G</span>
+        <span>Image Corridor</span>
+      </a>
+      <a class="archive-return" href="index.html">回廊へ戻る</a>
+    </header>
+
+    <main class="archive-page-main">
+      <section class="archive archive-standalone" aria-labelledby="archive-title">
+        <div class="archive-heading">
+          <div>
+            <p class="section-label">Archive Wall</p>
+            <h1 id="archive-title">断片の壁</h1>
+          </div>
+          <p>ここに並ぶものは、答えではない。<br>観測された断片である。</p>
+        </div>
+        <div class="archive-grid" data-archive-grid></div>
+        <a class="corridor-return-link" href="index.html">
+          <span aria-hidden="true">←</span>
+          <span>画像回廊へ戻る</span>
+        </a>
+      </section>
+    </main>
+
+    <dialog class="image-modal" data-modal aria-labelledby="modal-title">
+      <button class="modal-close" type="button" data-modal-close aria-label="拡大表示を閉じる">×</button>
+      <div class="modal-layout">
+        <div class="modal-image-wrap">
+          <img data-modal-image src="" alt="">
+        </div>
+        <div class="modal-caption">
+          <p class="section-label" data-modal-number>Observation 00</p>
+          <p id="modal-title" data-modal-text></p>
+        </div>
+      </div>
+    </dialog>
+
+    <noscript>
+      <p class="noscript-message">断片の表示にはJavaScriptが必要です。</p>
+    </noscript>
+
+    <script src="script.js"></script>
+  </body>
+</html>

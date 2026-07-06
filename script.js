@@ -90,55 +90,63 @@ function createTagMarkup(tags) {
 }
 
 function renderObservations() {
-  corridorTrack.innerHTML = observations.map((observation) => `
-    <article class="art-panel" data-observation="${observation.id}">
-      <button
-        class="art-image-button"
-        type="button"
-        data-open-observation="${observation.id}"
-        aria-label="Observation ${observation.id} を拡大する"
-      >
-        <img src="${observation.image}" alt="${observation.alt}" loading="lazy">
-      </button>
-      <div class="art-caption">
-        <p class="art-number">Observation ${observation.id}</p>
-        <p class="observation-text">${observation.text}</p>
-        <div class="tags">${createTagMarkup(observation.tags)}</div>
-      </div>
-    </article>
-  `).join("");
+  if (corridorTrack) {
+    corridorTrack.innerHTML = observations.map((observation) => `
+      <article class="art-panel" data-observation="${observation.id}">
+        <button
+          class="art-image-button"
+          type="button"
+          data-open-observation="${observation.id}"
+          aria-label="Observation ${observation.id} を拡大する"
+        >
+          <img src="${observation.image}" alt="${observation.alt}" loading="lazy">
+        </button>
+        <div class="art-caption">
+          <p class="art-number">Observation ${observation.id}</p>
+          <p class="observation-text">${observation.text}</p>
+          <div class="tags">${createTagMarkup(observation.tags)}</div>
+        </div>
+      </article>
+    `).join("");
+  }
 
-  archiveGrid.innerHTML = observations.map((observation) => `
-    <article class="archive-item">
-      <button
-        class="archive-button"
-        type="button"
-        data-open-observation="${observation.id}"
-        aria-label="Observation ${observation.id} を拡大する"
-      >
-        <span class="archive-thumb">
-          <img src="${observation.image}" alt="" loading="lazy">
-        </span>
-        <span class="archive-meta">
-          <strong>Observation ${observation.id}</strong>
-          <span>${observation.tags.join(" / ")}</span>
-        </span>
-      </button>
-    </article>
-  `).join("");
+  if (archiveGrid) {
+    archiveGrid.innerHTML = observations.map((observation) => `
+      <article class="archive-item">
+        <button
+          class="archive-button"
+          type="button"
+          data-open-observation="${observation.id}"
+          aria-label="Observation ${observation.id} を拡大する"
+        >
+          <span class="archive-thumb">
+            <img src="${observation.image}" alt="" loading="lazy">
+          </span>
+          <span class="archive-meta">
+            <strong>Observation ${observation.id}</strong>
+            <span>${observation.tags.join(" / ")}</span>
+          </span>
+        </button>
+      </article>
+    `).join("");
+  }
 
-  totalObservations.textContent = String(observations.length).padStart(2, "0");
+  if (totalObservations) {
+    totalObservations.textContent = String(observations.length).padStart(2, "0");
+  }
 }
 
 function setActiveObservation(id) {
   document.querySelectorAll("[data-observation]").forEach((panel) => {
     panel.classList.toggle("is-active", panel.dataset.observation === id);
   });
-  currentObservation.textContent = id;
+  if (currentObservation) currentObservation.textContent = id;
 }
 
 function setupObservationObserver() {
   activeObserver?.disconnect();
+  const panels = document.querySelectorAll("[data-observation]");
+  if (!corridorViewport || panels.length === 0) return;
 
   activeObserver = new IntersectionObserver(
     (entries) => {
@@ -157,12 +165,14 @@ function setupObservationObserver() {
     }
   );
 
-  document.querySelectorAll("[data-observation]").forEach((panel) => {
+  panels.forEach((panel) => {
     activeObserver.observe(panel);
   });
 }
 
 function measureCorridor() {
+  if (!corridorStage || !corridorTrack || !corridorProgress) return;
+
   if (mobileLayout.matches) {
     corridorStage.style.height = "auto";
     corridorTrack.style.transform = "none";
@@ -176,6 +186,11 @@ function measureCorridor() {
 }
 
 function updateCorridor() {
+  if (!corridorStage || !corridorTrack || !corridorProgress) {
+    ticking = false;
+    return;
+  }
+
   if (mobileLayout.matches) {
     ticking = false;
     return;
@@ -199,7 +214,7 @@ function requestCorridorUpdate() {
 
 function openModal(id) {
   const observation = observations.find((item) => item.id === id);
-  if (!observation) return;
+  if (!observation || !modal) return;
 
   lastFocusedElement = document.activeElement;
   modalImage.src = observation.image;
@@ -212,14 +227,14 @@ function openModal(id) {
 }
 
 function closeModal() {
-  if (!modal.open) return;
+  if (!modal?.open) return;
   modal.close();
   document.body.classList.remove("is-modal-open");
   lastFocusedElement?.focus();
 }
 
 renderObservations();
-setActiveObservation("01");
+if (corridorTrack) setActiveObservation("01");
 setupObservationObserver();
 
 document.addEventListener("click", (event) => {
@@ -227,26 +242,28 @@ document.addEventListener("click", (event) => {
   if (trigger) openModal(trigger.dataset.openObservation);
 });
 
-enterButton.addEventListener("click", () => {
+enterButton?.addEventListener("click", () => {
   corridorStage.scrollIntoView({ behavior: reducedMotion.matches ? "auto" : "smooth" });
 });
 
-returnButton.addEventListener("click", () => {
+returnButton?.addEventListener("click", () => {
   window.scrollTo({ top: 0, behavior: reducedMotion.matches ? "auto" : "smooth" });
 });
 
-modalClose.addEventListener("click", closeModal);
+modalClose?.addEventListener("click", closeModal);
 
-modal.addEventListener("click", (event) => {
+modal?.addEventListener("click", (event) => {
   if (event.target === modal) closeModal();
 });
 
-modal.addEventListener("cancel", (event) => {
+modal?.addEventListener("cancel", (event) => {
   event.preventDefault();
   closeModal();
 });
 
-window.addEventListener("scroll", requestCorridorUpdate, { passive: true });
+if (corridorStage) {
+  window.addEventListener("scroll", requestCorridorUpdate, { passive: true });
+}
 
 window.addEventListener("resize", () => {
   measureCorridor();
