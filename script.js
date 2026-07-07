@@ -3,15 +3,22 @@ const rooms = [
     id: "image-corridor",
     number: "01",
     title: "IMAGE CORRIDOR",
-    jp: "回廊",
+    jp: "Observation Corridor",
     href: "./image-corridor/"
   },
   {
     id: "resonance-hall",
     number: "02",
     title: "RESONANCE HALL",
-    jp: "残響の間",
+    jp: "Voice Archive",
     href: "./sound/"
+  },
+  {
+    id: "gireivel-gallery",
+    number: "03",
+    title: "GIREIVEL GALLERY",
+    jp: "Selected Archive",
+    href: "./gallery/"
   }
 ];
 
