@@ -606,11 +606,26 @@ button {
   }
 
   .door-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .chamber-door {
-    min-height: 180px;
+    gap: 10px;
+    min-height: 190px;
+    padding: clamp(20px, 5vw, 28px);
+  }
+
+  .door-name {
+    font-size: clamp(1.18rem, 6.6vw, 1.85rem);
+  }
+
+  .door-jp {
+    font-size: 0.82rem;
+  }
+
+  .door-copy {
+    font-size: clamp(0.78rem, 3.45vw, 0.9rem);
+    line-height: 1.7;
   }
 
   .chamber-title {
