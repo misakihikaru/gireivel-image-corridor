@@ -8,11 +8,11 @@
       content="画像を一つずつ観測し、静かな回廊を歩く GIREIVEL IMAGE CORRIDOR。"
     >
     <title>GIREIVEL IMAGE CORRIDOR</title>
-    <link rel="stylesheet" href="styles.css?v=exit-overlay-1">
+    <link rel="stylesheet" href="styles.css?v=manor-return-1">
   </head>
   <body>
     <header class="site-header" data-header>
-      <a class="site-mark" href="#entrance" aria-label="Gireivel Image Corridor entrance">
+      <a class="site-mark" href="../index.html" aria-label="Gireivel Manorへ戻る">
         <span>G</span>
         <span>Image Corridor</span>
       </a>
@@ -88,9 +88,14 @@
             <button class="observe-again-button" type="button" data-return-top>
               もう一度、観測する
             </button>
-            <button class="world-return-button" type="button" data-world-return>
-              世界へ戻る
-            </button>
+            <div class="exit-final-actions">
+              <button class="world-return-button" type="button" data-world-return>
+                世界へ戻る
+              </button>
+              <a class="manor-return-link" href="../index.html">
+                観測所へ戻る
+              </a>
+            </div>
           </div>
           <p class="world-return-message" data-world-return-message aria-live="polite">もう戻っています</p>
         </div>
@@ -114,6 +119,6 @@
       <p class="noscript-message">この回廊の観測にはJavaScriptが必要です。</p>
     </noscript>
 
-    <script src="script.js?v=exit-overlay-1"></script>
+    <script src="script.js?v=manor-return-1"></script>
   </body>
 </html>

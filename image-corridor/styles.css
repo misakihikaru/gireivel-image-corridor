@@ -610,10 +610,33 @@ img {
   font-size: 1rem;
 }
 
+.exit-final-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px 28px;
+  align-items: center;
+  justify-content: center;
+}
+
+.exit-final-actions .world-return-button {
+  margin-top: 0;
+}
+
+.manor-return-link {
+  padding: 0 0 8px;
+  border-bottom: 1px solid transparent;
+  color: rgba(232, 226, 216, 0.86);
+  font-size: 1rem;
+  text-decoration: none;
+  transition: border-color 180ms ease, color 180ms ease;
+}
+
 .observe-again-button:hover,
 .observe-again-button:focus-visible,
 .world-return-button:hover,
-.world-return-button:focus-visible {
+.world-return-button:focus-visible,
+.manor-return-link:hover,
+.manor-return-link:focus-visible {
   border-color: var(--line);
   color: var(--ivory);
 }
