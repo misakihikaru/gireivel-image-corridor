@@ -25,14 +25,30 @@ const chambers = {
     name: "Rezel",
     jp: "変異",
     description: "変異は、外側から与えられる異常ではない。内側にあったものが、ようやく別の姿を許されることである。",
-    tracks: []
+    tracks: [
+      {
+        title: "Gireivel-Red Spiral",
+        youtube: "https://www.youtube.com/embed/zLciLxrmboY",
+        impression: "内側にあった異常が姿を許される、主従の倒錯",
+        observation: "螺旋は、前へ進むための形とは限らない。同じ場所へ戻りながら、少しずつ別の深度へ沈むものもある。変異とは、外から壊されることではない。内側の歪みが、ようやく輪郭を得ることである。",
+        tags: ["Rezel", "変異", "主従", "螺旋"]
+      }
+    ]
   },
 
   vells: {
     name: "Vells",
     jp: "変容",
     description: "変容は、壊れることではない。同じ形が、別の欲を覚えてしまうことである。",
-    tracks: []
+    tracks: [
+      {
+        title: "Gireivel-Crimson Shadow, Sweetest Enchantment",
+        youtube: "https://www.youtube.com/embed/i_DE-0NlM-8",
+        impression: "欲望を覚える、演出の倒錯",
+        observation: "影は、光の反対側にあるだけではない。時に、もっとも甘い演出として差し出される。変容は形を捨てることではない。同じ輪郭のまま、別の欲を覚えてしまうことである。",
+        tags: ["Vells", "変容", "欲望", "演出"]
+      }
+    ]
   },
 
   lacrevex: {
@@ -46,6 +62,13 @@ const chambers = {
         impression: "鏡の裂け目に見える誠実さ",
         observation: "鏡は、真実を映すとは限らない。だが、割れた鏡だけが映す誠実さもある。裂け目は欠損ではない。隠されていたものの入口である。",
         tags: ["Lacrevex", "純化", "鏡", "裂け目", "誠実"]
+      },
+      {
+        title: "Gireivel-The Crimson Mask",
+        youtube: "https://www.youtube.com/embed/iDVGk8lH6sw",
+        impression: "透明な毒、Gireivelへの倒錯",
+        observation: "仮面は、隠すためだけにあるのではない。顔よりも正確に、奥底の構造を晒すことがある。純化とは清らかになることではない。余計な逃げ道を落とし、毒だけが見えるほど透明になることである。",
+        tags: ["Lacrevex", "純化", "仮面", "透明な毒"]
       }
     ]
   }
