@@ -504,6 +504,33 @@ img {
   line-height: 2;
 }
 
+.gallery-footer {
+  display: grid;
+  place-items: center;
+  padding: 34px var(--side) 48px;
+  border-top: 1px solid var(--line);
+}
+
+.observatory-return {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 0 6px;
+  border-bottom: 1px solid rgba(232, 226, 216, 0.22);
+  color: rgba(232, 226, 216, 0.68);
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  transition: border-color 180ms ease, color 180ms ease;
+}
+
+.observatory-return:hover,
+.observatory-return:focus-visible {
+  border-color: rgba(132, 37, 37, 0.9);
+  color: var(--ivory);
+  outline: none;
+}
+
 .image-modal {
   width: 100vw;
   max-width: none;
