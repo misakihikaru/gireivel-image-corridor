@@ -183,8 +183,7 @@ img {
   margin: 0 0 18px;
 }
 
-.enter-button,
-.return-button {
+.enter-button {
   display: inline-flex;
   align-items: center;
   gap: 20px;
@@ -197,9 +196,7 @@ img {
 }
 
 .enter-button:hover,
-.enter-button:focus-visible,
-.return-button:hover,
-.return-button:focus-visible {
+.enter-button:focus-visible {
   gap: 28px;
   color: #fff;
 }
@@ -583,6 +580,51 @@ img {
 .archive-link:focus-visible {
   border-color: var(--ivory);
   color: var(--ivory);
+}
+
+.exit-actions {
+  display: grid;
+  gap: 18px;
+  justify-items: center;
+  margin-top: 32px;
+}
+
+.observe-again-button,
+.world-return-button {
+  padding: 0 0 8px;
+  border-bottom: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.86rem;
+  transition: border-color 180ms ease, color 180ms ease, opacity 180ms ease;
+}
+
+.observe-again-button {
+  color: rgba(232, 226, 216, 0.78);
+}
+
+.observe-again-button:hover,
+.observe-again-button:focus-visible,
+.world-return-button:hover,
+.world-return-button:focus-visible {
+  border-color: var(--line);
+  color: var(--ivory);
+}
+
+.world-return-message {
+  min-height: 1.8em;
+  margin: 28px 0 0;
+  color: rgba(232, 226, 216, 0.62);
+  font-size: 0.86rem;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 700ms ease, transform 700ms ease;
+}
+
+.world-return-message.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .archive-page {

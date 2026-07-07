@@ -84,10 +84,15 @@
             <span>If You Look Back</span>
             <span>断片を振り返る</span>
           </a>
-          <button class="return-button" type="button" data-return-top>
-            <span aria-hidden="true">↑</span>
-            <span>世界へ戻る</span>
-          </button>
+          <div class="exit-actions" aria-label="出口後の導線">
+            <button class="observe-again-button" type="button" data-return-top>
+              もう一度、観測する
+            </button>
+            <button class="world-return-button" type="button" data-world-return>
+              世界へ戻る
+            </button>
+          </div>
+          <p class="world-return-message" data-world-return-message aria-live="polite">もう戻っています。</p>
         </div>
       </section>
     </main>

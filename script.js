@@ -73,6 +73,8 @@ const currentObservation = document.querySelector("[data-current-observation]");
 const totalObservations = document.querySelector("[data-total-observations]");
 const enterButton = document.querySelector("[data-enter]");
 const returnButton = document.querySelector("[data-return-top]");
+const worldReturnButton = document.querySelector("[data-world-return]");
+const worldReturnMessage = document.querySelector("[data-world-return-message]");
 const modal = document.querySelector("[data-modal]");
 const modalImage = document.querySelector("[data-modal-image]");
 const modalNumber = document.querySelector("[data-modal-number]");
@@ -84,6 +86,7 @@ const mobileLayout = window.matchMedia("(max-width: 760px)");
 let activeObserver;
 let ticking = false;
 let lastFocusedElement;
+let worldReturnTimer;
 
 function createTagMarkup(tags) {
   return tags.map((tag) => `<span>${tag}</span>`).join("");
@@ -248,6 +251,16 @@ enterButton?.addEventListener("click", () => {
 
 returnButton?.addEventListener("click", () => {
   window.scrollTo({ top: 0, behavior: reducedMotion.matches ? "auto" : "smooth" });
+});
+
+worldReturnButton?.addEventListener("click", () => {
+  if (!worldReturnMessage) return;
+
+  window.clearTimeout(worldReturnTimer);
+  worldReturnMessage.classList.add("is-visible");
+  worldReturnTimer = window.setTimeout(() => {
+    worldReturnMessage.classList.remove("is-visible");
+  }, 2200);
 });
 
 modalClose?.addEventListener("click", closeModal);
