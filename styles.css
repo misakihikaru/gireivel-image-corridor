@@ -330,6 +330,7 @@ img {
   margin: 24px 0 0;
   font-size: clamp(1.2rem, 2.2vw, 1.75rem);
   line-height: 1.8;
+  white-space: pre-line;
 }
 
 .tags {
@@ -690,6 +691,7 @@ img {
   margin: 22px 0 0;
   font-size: clamp(1.2rem, 2vw, 1.6rem);
   line-height: 1.8;
+  white-space: pre-line;
 }
 
 .noscript-message {

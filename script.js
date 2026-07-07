@@ -3,8 +3,8 @@ const observations = [
     id: "01",
     image: "./assets/images/observation-01.jpg",
     alt: "白い衣の人物から赤い花が伸びる、光に満ちた黒い聖堂",
-    text: "何も起きていない。だからこそ、見えてしまうものがある。",
-    tags: ["日常", "空洞"]
+    text: "何も起きていない。\nただ、終わったものだけが、静かに咲いている。",
+    tags: ["沈黙", "開花"]
   },
   {
     id: "02",
