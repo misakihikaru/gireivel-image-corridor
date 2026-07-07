@@ -98,6 +98,10 @@ button {
   transition: color 180ms ease;
 }
 
+.chamber-nav a:nth-child(2) {
+  display: none;
+}
+
 .chamber-nav a:hover,
 .chamber-nav a:focus-visible {
   color: var(--ivory);
@@ -147,6 +151,7 @@ button {
   font-weight: 400;
   letter-spacing: 0;
   text-transform: uppercase;
+  overflow-wrap: anywhere;
 }
 
 .entrance h1 {
@@ -154,6 +159,10 @@ button {
   gap: 8px;
   font-size: clamp(3.4rem, 9vw, 9rem);
   line-height: 0.9;
+}
+
+.entrance h1 .wide-line {
+  font-size: 0.84em;
 }
 
 .entrance-subtitle {
@@ -670,12 +679,37 @@ button {
     font-size: 0.62rem;
   }
 
+  .chamber-nav a:nth-child(2) {
+    display: none;
+  }
+
   .entrance {
-    padding-top: 92px;
+    padding-top: 86px;
   }
 
   .entrance h1 {
-    font-size: clamp(3rem, 16vw, 5.8rem);
+    gap: 6px;
+    font-size: clamp(2.3rem, 12.5vw, 4.25rem);
+    line-height: 0.96;
+  }
+
+  .section-label {
+    font-size: 0.64rem;
+    letter-spacing: 0.13em;
+  }
+
+  .entrance-subtitle,
+  .entrance-copy,
+  .observation-copy,
+  .chambers-intro,
+  .closing-copy,
+  .track-observation {
+    font-size: clamp(0.92rem, 3.9vw, 1.03rem);
+  }
+
+  .section-heading h2 {
+    font-size: clamp(2.15rem, 11vw, 3.8rem);
+    line-height: 1;
   }
 
   .track-meta,
@@ -686,6 +720,13 @@ button {
 
   .track-meta {
     display: grid;
+  }
+
+  .track-meta h3,
+  .sound-track-header h3 {
+    font-size: clamp(1.48rem, 7.8vw, 2.3rem);
+    line-height: 1.12;
+    overflow-wrap: anywhere;
   }
 
   .door-grid {
@@ -727,14 +768,64 @@ button {
     grid-template-columns: 1fr;
   }
 
+  .chamber-title h1 {
+    font-size: clamp(2.35rem, 12vw, 4.1rem);
+  }
+
+  .return-section h2 {
+    font-size: clamp(3.15rem, 15vw, 5rem);
+  }
+
   .chamber-page .chamber-nav a:not(:first-child) {
     display: none;
   }
 }
 
 @media (max-width: 460px) {
-  .chamber-nav a:nth-child(2) {
-    display: none;
+  :root {
+    --side: clamp(16px, 4.5vw, 20px);
+  }
+
+  .site-header {
+    min-height: 56px;
+  }
+
+  .entrance {
+    min-height: 100svh;
+    padding-top: 78px;
+    padding-bottom: 64px;
+  }
+
+  .entrance h1 {
+    font-size: clamp(1.9rem, 9.7vw, 2.65rem);
+    line-height: 1;
+  }
+
+  .entrance h1 .wide-line {
+    font-size: 0.78em;
+  }
+
+  .entrance-subtitle {
+    margin-top: 28px;
+  }
+
+  .entrance-copy {
+    gap: 22px;
+    margin-top: 34px;
+    line-height: 1.95;
+  }
+
+  .section-heading h2 {
+    font-size: clamp(2rem, 10.2vw, 3rem);
+  }
+
+  .track-meta h3 {
+    font-size: clamp(1.42rem, 7.1vw, 2rem);
+  }
+
+  .video-frame {
+    margin-inline: calc(var(--side) * -0.35);
+    width: calc(100% + var(--side) * 0.7);
   }
 }
 

@@ -180,6 +180,7 @@ img {
   font-weight: 400;
   line-height: 0.96;
   text-transform: uppercase;
+  overflow-wrap: anywhere;
 }
 
 .hero h1 {
@@ -195,6 +196,8 @@ img {
   color: rgba(232, 226, 216, 0.78);
   font-size: clamp(1rem, 1.45vw, 1.18rem);
   line-height: 2;
+  overflow-wrap: anywhere;
+  word-break: break-all;
 }
 
 .hero-stats {
@@ -240,6 +243,7 @@ img {
   color: rgba(232, 226, 216, 0.7);
   font-size: 0.86rem;
   line-height: 1.7;
+  overflow-wrap: anywhere;
   text-align: center;
 }
 
@@ -686,26 +690,60 @@ img {
   }
 
   .header-nav {
-    gap: 18px;
-    font-size: 0.66rem;
+    gap: 12px;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
   }
 
   .hero {
     min-height: 84svh;
-    padding-top: 92px;
+    padding-top: 86px;
+    padding-bottom: 54px;
   }
 
   .hero-content {
-    min-height: calc(84svh - 164px);
+    min-height: calc(84svh - 140px);
   }
 
   .hero h1 {
-    font-size: clamp(3.25rem, 18vw, 5.2rem);
-    letter-spacing: 0.04em;
+    max-width: 100%;
+    font-size: clamp(2.45rem, 12.9vw, 3.65rem);
+    letter-spacing: 0.025em;
+    line-height: 1;
+  }
+
+  .section-label {
+    font-size: 0.64rem;
+    letter-spacing: 0.13em;
+  }
+
+  .hero-copy,
+  .future-entry p {
+    font-size: clamp(0.92rem, 3.85vw, 1.03rem);
+    line-height: 1.85;
+    overflow-wrap: anywhere;
+    word-break: break-all;
+  }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .hero-stats span {
-    min-width: 120px;
+    min-width: 0;
+    padding: 16px 10px;
+    font-size: 0.58rem;
+    letter-spacing: 0.11em;
+    overflow-wrap: anywhere;
+  }
+
+  .hero-stats span:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .hero-stats strong {
+    font-size: 1.28rem;
   }
 
   .lineage-grid {
@@ -738,6 +776,29 @@ img {
     height: 48px;
     font-size: 2.1rem;
     transform: none;
+  }
+}
+
+@media (max-width: 420px) {
+  :root {
+    --side: clamp(16px, 4.5vw, 20px);
+  }
+
+  .gallery-header {
+    height: 56px;
+  }
+
+  .header-nav {
+    gap: 10px;
+    font-size: 0.58rem;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.15rem, 11.2vw, 2.9rem);
+  }
+
+  .hero-stats span {
+    padding: 14px 8px;
   }
 }
 
