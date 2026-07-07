@@ -1,0 +1,14 @@
+{
+  "name": "GIREIVEL MANOR",
+  "short_name": "GIREIVEL",
+  "icons": [
+    {
+      "src": "./assets/images/gireivel-emblem.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ],
+  "theme_color": "#050505",
+  "background_color": "#050505",
+  "display": "standalone"
+}
