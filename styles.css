@@ -620,23 +620,26 @@ img {
 
 .world-return-message {
   position: fixed;
-  z-index: 60;
-  bottom: clamp(72px, 14vh, 140px);
-  left: 50%;
-  width: max-content;
-  max-width: calc(100vw - 48px);
+  z-index: 80;
+  inset: 0;
+  display: grid;
+  place-items: center;
   margin: 0;
-  color: rgba(232, 226, 216, 0.62);
-  font-size: clamp(0.95rem, 1.4vw, 1.12rem);
+  padding: var(--side);
+  background: rgba(0, 0, 0, 0.94);
+  color: rgba(232, 226, 216, 0.84);
+  font-size: clamp(1.55rem, 3.2vw, 3rem);
+  line-height: 1.8;
   opacity: 0;
   pointer-events: none;
-  transform: translate(-50%, 10px);
-  transition: opacity 700ms ease, transform 700ms ease;
+  text-align: center;
+  transform: translateY(10px);
+  transition: opacity 900ms ease, transform 900ms ease;
 }
 
 .world-return-message.is-visible {
   opacity: 1;
-  transform: translate(-50%, 0);
+  transform: translateY(0);
 }
 
 .archive-page {

@@ -260,7 +260,7 @@ worldReturnButton?.addEventListener("click", () => {
   worldReturnMessage.classList.add("is-visible");
   worldReturnTimer = window.setTimeout(() => {
     worldReturnMessage.classList.remove("is-visible");
-  }, 2200);
+  }, 2600);
 });
 
 modalClose?.addEventListener("click", closeModal);
