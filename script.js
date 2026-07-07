@@ -9,15 +9,15 @@ const rooms = [
   {
     id: "resonance-hall",
     number: "02",
-    title: "RESONANCE HALL",
-    jp: "Voice Archive",
+    title: "ECHO RELIQUARY",
+    jp: "Residual Archive",
     href: "./sound/"
   },
   {
     id: "gireivel-gallery",
     number: "03",
-    title: "GIREIVEL GALLERY",
-    jp: "Selected Archive",
+    title: "CONCEPT INCARNATE",
+    jp: "Embodied Archive",
     href: "./gallery/"
   }
 ];

@@ -25,7 +25,8 @@ html {
 body {
   min-height: 100%;
   margin: 0;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   background: var(--background);
   color: var(--text);
   font-family: "Yu Mincho", "Hiragino Mincho ProN", Georgia, "Times New Roman", serif;
@@ -112,7 +113,7 @@ img {
   display: grid;
   align-content: center;
   justify-items: center;
-  width: min(960px, calc(100vw - 36px));
+  width: min(1080px, calc(100vw - 36px));
   min-height: 100svh;
   margin: 0 auto;
   padding: clamp(74px, 10vh, 110px) 0 clamp(28px, 6vh, 72px);
@@ -169,9 +170,9 @@ body.is-ready .hero {
 
 .room-doors {
   display: grid;
-  grid-template-columns: repeat(2, minmax(190px, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: clamp(14px, 2.5vw, 28px);
-  width: min(700px, 100%);
+  width: min(980px, 100%);
   margin-top: clamp(46px, 8vh, 78px);
 }
 
@@ -202,6 +203,10 @@ body.is-ready .room-door {
 
 body.is-ready .room-door:nth-child(2) {
   transition-delay: 120ms;
+}
+
+body.is-ready .room-door:nth-child(3) {
+  transition-delay: 240ms;
 }
 
 .room-door::before,
@@ -252,7 +257,7 @@ body.is-ready .room-door:nth-child(2) {
 .room-title {
   align-self: end;
   margin-top: 28px;
-  font-size: clamp(1rem, 2vw, 1.28rem);
+  font-size: clamp(0.94rem, 1.7vw, 1.18rem);
   letter-spacing: 0.1em;
   line-height: 1.2;
   text-transform: uppercase;
@@ -360,11 +365,14 @@ body.is-map-open .manor-map {
   padding-left: 8px;
 }
 
-@media (max-width: 700px) {
-  body {
-    overflow-y: auto;
+@media (max-width: 920px) {
+  .room-doors {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: min(680px, 100%);
   }
+}
 
+@media (max-width: 700px) {
   .background {
     background-position: center center;
   }
