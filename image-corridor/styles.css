@@ -147,6 +147,7 @@ img {
   bottom: 0;
   left: var(--side);
   width: 1px;
+  box-shadow: calc(100vw - (var(--side) * 2)) 0 0 var(--line);
 }
 
 .entrance::after {
