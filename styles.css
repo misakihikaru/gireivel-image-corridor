@@ -365,6 +365,20 @@ body.is-map-open .manor-map {
   padding-left: 8px;
 }
 
+.site-credit {
+  position: fixed;
+  z-index: 12;
+  bottom: clamp(14px, 3vw, 26px);
+  left: clamp(16px, 3vw, 36px);
+  max-width: min(420px, calc(100vw - 32px));
+  margin: 0;
+  color: rgba(154, 145, 136, 0.72);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  line-height: 1.6;
+}
+
 @media (max-width: 920px) {
   .room-doors {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -423,6 +437,13 @@ body.is-map-open .manor-map {
   .manor-map {
     width: 100vw;
     border-left: 0;
+  }
+
+  .site-credit {
+    bottom: 12px;
+    color: rgba(154, 145, 136, 0.62);
+    font-size: 0.54rem;
+    letter-spacing: 0.08em;
   }
 }
 

@@ -510,6 +510,7 @@ img {
 
 .gallery-footer {
   display: grid;
+  gap: 22px;
   place-items: center;
   padding: 34px var(--side) 48px;
   border-top: 1px solid var(--line);
@@ -533,6 +534,16 @@ img {
   border-color: rgba(132, 37, 37, 0.9);
   color: var(--ivory);
   outline: none;
+}
+
+.site-credit {
+  margin: 0;
+  color: rgba(164, 154, 142, 0.72);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  line-height: 1.6;
+  text-align: center;
 }
 
 .image-modal {

@@ -703,6 +703,22 @@ img {
   color: var(--ivory);
 }
 
+.site-credit {
+  padding: 28px var(--side) 42px;
+  border-top: 1px solid var(--line);
+  color: rgba(154, 145, 136, 0.72);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.site-credit p {
+  width: min(1050px, 100%);
+  margin: 0 auto;
+}
+
 .image-modal {
   width: 100vw;
   max-width: none;
