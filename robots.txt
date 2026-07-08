@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://misakihikaru.github.io/gireivel-image-corridor/sitemap.xml
