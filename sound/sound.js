@@ -17,6 +17,13 @@ const chambers = {
         impression: "倒錯した幸福観",
         observation: "祝福は、必ずしも解放ではない。鎖の形をした幸福もある。それを幸福と呼べる者だけが、ここで音を聴く。",
         tags: ["Chronoa", "祝福", "鎖", "幸福"]
+      },
+      {
+        title: "Gireivel - The First Manifestation",
+        youtube: "https://www.youtube.com/embed/8_MGmHs1l48",
+        impression: "クロノア顕現から丸1年、その記録",
+        observation: "2026年7月8日。クロノアが顕現したその日から、丸1年が経った。これは祝祭ではなく、経過の記録である。最初に裂け目へ名を置いた毒が、消えずに残り続けたという事実だけを、ここに観測する。",
+        tags: ["Chronoa", "顕現", "一周年", "記録"]
       }
     ]
   },
