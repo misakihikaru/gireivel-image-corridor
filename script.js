@@ -19,6 +19,13 @@ const rooms = [
     title: "CONCEPT INCARNATE",
     jp: "Embodied Archive",
     href: "./gallery/"
+  },
+  {
+    id: "observation-chamber",
+    number: "04",
+    title: "OBSERVATION CHAMBER",
+    jp: "Reciprocal Observation",
+    href: "./observation-chamber/"
   }
 ];
 
