@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="四つの問いに残された言葉の偏りを観測する、GIREIVEL OBSERVATION CHAMBER。"
+    >
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#050505">
+    <meta property="og:site_name" content="GIREIVEL">
+    <meta property="og:title" content="OBSERVATION CHAMBER | GIREIVEL">
+    <meta
+      property="og:description"
+      content="ここでは、観測する者と観測される者が入れ替わる。"
+    >
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://gireivel.com/observation-chamber/">
+    <meta property="og:image" content="https://gireivel.com/observation-chamber/og.png">
+    <meta property="og:image:width" content="1659">
+    <meta property="og:image:height" content="948">
+    <meta property="og:image:alt" content="GIREIVEL Observation Chamber — Be Observed.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://gireivel.com/observation-chamber/og.png">
+    <title>OBSERVATION CHAMBER | GIREIVEL</title>
+    <link rel="canonical" href="https://gireivel.com/observation-chamber/">
+    <link rel="icon" href="../assets/images/gireivel-emblem.jpg">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body class="is-loading" data-state="threshold">
+    <a class="skip-link" href="#chamber-main">観測室の本文へ移動</a>
+
+    <div class="chamber-atmosphere" aria-hidden="true">
+      <div class="chamber-grain"></div>
+      <div class="chamber-scar chamber-scar-a"></div>
+      <div class="chamber-scar chamber-scar-b"></div>
+    </div>
+
+    <header class="chamber-header">
+      <a class="site-mark" href="../index.html" aria-label="Gireivel Manorへ戻る">
+        <span class="site-mark-glyph">G</span>
+        <span class="site-mark-name">Observation Chamber</span>
+      </a>
+
+      <div class="chamber-status" aria-live="polite">
+        <span class="local-status"><i aria-hidden="true"></i> Local Process</span>
+        <span class="status-divider" aria-hidden="true"></span>
+        <span data-stage-status>00 / Threshold</span>
+      </div>
+    </header>
+
+    <main id="chamber-main">
+      <section
+        class="chamber-view threshold-view is-active"
+        data-view="threshold"
+        aria-labelledby="threshold-title"
+      >
+        <div class="threshold-layout">
+          <div class="threshold-copy">
+            <p class="section-label">Room 04 / Reciprocal Observation</p>
+            <h1 id="threshold-title">
+              <span>Observation</span>
+              <span>Chamber</span>
+            </h1>
+            <p class="threshold-lead">
+              ここで観測されるのは、貴方の人格ではありません。<br>
+              四つの問いに残された、言葉の偏りです。
+            </p>
+            <p class="threshold-subcopy">
+              正解も救済も用意していません。文章から拾える痕跡だけを並べ、
+              それを誰が最も興味深く読むか決めます。
+            </p>
+
+            <div class="threshold-actions">
+              <button class="primary-action" type="button" data-begin>
+                <span>観測対象になる</span>
+                <span aria-hidden="true">04 Questions</span>
+              </button>
+              <button class="text-action" type="button" data-open-prior hidden>
+                前回の観測記録を見る
+              </button>
+            </div>
+          </div>
+
+          <aside class="instrument-panel" aria-label="観測方式">
+            <div class="observation-instrument" aria-hidden="true">
+              <div class="instrument-ring ring-outer"></div>
+              <div class="instrument-ring ring-middle"></div>
+              <div class="instrument-ring ring-inner"></div>
+              <div class="instrument-cross cross-horizontal"></div>
+              <div class="instrument-cross cross-vertical"></div>
+              <span class="instrument-index index-north">I</span>
+              <span class="instrument-index index-east">II</span>
+              <span class="instrument-index index-south">III</span>
+              <span class="instrument-index index-west">IV</span>
+              <span class="instrument-core"></span>
+            </div>
+
+            <div class="privacy-ledger">
+              <p class="ledger-title">Handling of Testimony</p>
+              <dl>
+                <div>
+                  <dt>Answer Transfer</dt>
+                  <dd>None</dd>
+                </div>
+                <div>
+                  <dt>Raw Answer</dt>
+                  <dd>Discarded</dd>
+                </div>
+                <div>
+                  <dt>Abstract Trace</dt>
+                  <dd>On This Device</dd>
+                </div>
+              </dl>
+              <p>
+                回答文は外部へ送信せず、履歴領域にも保存しません。
+                解析後に端末へ残るのは、抽象化した傾向値と観測結果だけです。
+              </p>
+            </div>
+
+            <div class="prior-mark" data-prior-mark hidden>
+              <span>Previous Scar</span>
+              <strong data-prior-observer>—</strong>
+              <small data-prior-date>—</small>
+            </div>
+          </aside>
+        </div>
+
+        <p class="threshold-footnote">
+          Fictional language analysis / Not a psychological assessment
+        </p>
+      </section>
+
+      <section
+        class="chamber-view interrogation-view"
+        data-view="interrogation"
+        aria-labelledby="question-title"
+        hidden
+      >
+        <div class="interrogation-layout">
+          <div class="question-column">
+            <div class="question-heading">
+              <p class="section-label" data-question-domain>Value Inversion</p>
+              <p class="question-number" aria-hidden="true">
+                <span data-question-number>01</span>
+                <span>/</span>
+                <span>04</span>
+              </p>
+            </div>
+
+            <form class="testimony-form" data-testimony-form novalidate>
+              <fieldset>
+                <legend id="question-title" data-question-text>
+                  守るためなら、何を壊せますか。
+                </legend>
+                <p class="question-instruction" data-question-instruction>
+                  対象の名前ではなく、貴方が許可する破壊の基準を書いてください。
+                </p>
+
+                <label class="answer-label" for="witness-answer">
+                  <span>Testimony</span>
+                  <span><b data-character-count>0</b> / 320</span>
+                </label>
+                <div class="answer-frame">
+                  <textarea
+                    id="witness-answer"
+                    name="answer"
+                    rows="7"
+                    maxlength="320"
+                    autocomplete="off"
+                    spellcheck="true"
+                    aria-describedby="answer-note answer-error"
+                    data-answer
+                  ></textarea>
+                  <span class="answer-corner corner-tl" aria-hidden="true"></span>
+                  <span class="answer-corner corner-tr" aria-hidden="true"></span>
+                  <span class="answer-corner corner-bl" aria-hidden="true"></span>
+                  <span class="answer-corner corner-br" aria-hidden="true"></span>
+                </div>
+                <p class="answer-note" id="answer-note">
+                  提出後、回答文は履歴に保存されず、画面にも戻せません。Ctrl / ⌘ + Enter でも提出できます。
+                </p>
+                <p class="answer-error" id="answer-error" role="alert" data-answer-error></p>
+
+                <div class="question-actions">
+                  <button class="silence-action" type="button" data-submit-silence>
+                    沈黙を提出する
+                  </button>
+                  <button class="primary-action submit-action" type="submit">
+                    <span>この回答を渡す</span>
+                    <span aria-hidden="true">Seal</span>
+                  </button>
+                </div>
+              </fieldset>
+            </form>
+          </div>
+
+          <aside class="sequence-panel" aria-label="観測の進行">
+            <p class="sequence-title">Four Incisions</p>
+            <ol class="sequence-list" data-sequence-list>
+              <li class="is-current" data-sequence-step="0">
+                <span>01</span>
+                <div>
+                  <strong>Value</strong>
+                  <small>何を許すか</small>
+                </div>
+              </li>
+              <li data-sequence-step="1">
+                <span>02</span>
+                <div>
+                  <strong>Virtue</strong>
+                  <small>誰も見ない場所</small>
+                </div>
+              </li>
+              <li data-sequence-step="2">
+                <span>03</span>
+                <div>
+                  <strong>Attachment</strong>
+                  <small>何を諦めるか</small>
+                </div>
+              </li>
+              <li data-sequence-step="3">
+                <span>04</span>
+                <div>
+                  <strong>Distortion</strong>
+                  <small>醜さの用途</small>
+                </div>
+              </li>
+            </ol>
+
+            <div
+              class="sequence-progress"
+              role="progressbar"
+              aria-label="観測の進行"
+              aria-valuemin="0"
+              aria-valuemax="4"
+              aria-valuenow="0"
+              data-progress
+            >
+              <span data-progress-bar></span>
+            </div>
+
+            <p class="sequence-disclaimer">
+              これは診断ではありません。文章に現れた語彙と構造を、
+              この館の美学で読むだけです。
+            </p>
+          </aside>
+        </div>
+      </section>
+
+      <section
+        class="chamber-view processing-view"
+        data-view="processing"
+        aria-labelledby="processing-title"
+        hidden
+      >
+        <div class="processing-content">
+          <div class="processing-sigil" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+            <b>G</b>
+          </div>
+          <p class="section-label">Testimony Sealed</p>
+          <h2 id="processing-title">言葉から、持ち主を剥がしています。</h2>
+          <p data-processing-copy>回答原文を破棄し、痕跡だけを残しています。</p>
+        </div>
+      </section>
+
+      <section
+        class="chamber-view result-view"
+        data-view="result"
+        aria-labelledby="record-title"
+        hidden
+      >
+        <div class="record-shell">
+          <header class="record-header">
+            <div>
+              <p class="section-label">Observation Record</p>
+              <p class="record-id" data-record-id>GVL-0000-000</p>
+            </div>
+            <div class="record-meta">
+              <span>Observer</span>
+              <strong data-result-observer>—</strong>
+            </div>
+          </header>
+
+          <div class="record-layout">
+            <article class="verdict">
+              <p class="verdict-kicker" data-result-kicker>Selected Observer</p>
+              <h2 id="record-title" tabindex="-1" data-result-title>観測記録</h2>
+              <div class="verdict-copy">
+                <p data-result-opening></p>
+                <p data-result-reading></p>
+                <p class="verdict-final" data-result-closing></p>
+              </div>
+              <p class="verdict-signature">
+                <span data-result-signature>—</span>
+                <small>Gireivel Observation</small>
+              </p>
+            </article>
+
+            <aside class="trace-panel" aria-labelledby="trace-title">
+              <div class="trace-heading">
+                <p id="trace-title">Abstract Trace</p>
+                <span data-confidence-label>Legibility —</span>
+              </div>
+              <div class="trace-list" data-trace-list></div>
+              <p class="trace-note">
+                数値は真実の割合ではなく、今回の文章内で痕跡がどれほど読み取りやすかったかを示します。
+              </p>
+              <dl class="record-facts">
+                <div>
+                  <dt>Visit</dt>
+                  <dd data-record-visit>01</dd>
+                </div>
+                <div>
+                  <dt>Raw Text</dt>
+                  <dd>Discarded</dd>
+                </div>
+                <div>
+                  <dt>Stored</dt>
+                  <dd>This Device</dd>
+                </div>
+              </dl>
+            </aside>
+          </div>
+
+          <footer class="record-actions">
+            <button class="primary-action" type="button" data-observe-again>
+              <span>もう一度、観測される</span>
+              <span aria-hidden="true">Repeat</span>
+            </button>
+            <button class="text-action danger-action" type="button" data-burn-record>
+              端末の観測記録を焼却する
+            </button>
+            <a class="manor-return" href="../index.html">Manorへ戻る</a>
+          </footer>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-credit">
+      <p>GIREIVEL MANOR &copy; 2026. Observed and curated by Misaki Hikaru.</p>
+    </footer>
+
+    <dialog class="burn-dialog" data-burn-dialog aria-labelledby="burn-title">
+      <form method="dialog">
+        <p class="section-label">Irreversible on This Device</p>
+        <h2 id="burn-title">観測記録を焼却しますか。</h2>
+        <p>
+          保存された抽象傾向、訪問回数、直近の観測結果を削除します。
+          回答原文は元から保存されていません。
+        </p>
+        <div class="dialog-actions">
+          <button class="text-action" value="cancel">残す</button>
+          <button class="primary-action burn-confirm" value="confirm" data-confirm-burn>
+            <span>焼却する</span>
+            <span aria-hidden="true">Erase</span>
+          </button>
+        </div>
+      </form>
+    </dialog>
+
+    <noscript>
+      <p class="noscript-message">
+        この観測室にはJavaScriptが必要です。無言にも種類がありますが、これは単なる機能停止です。
+      </p>
+    </noscript>
+
+    <script src="script.js"></script>
+    <!-- Cloudflare Web Analytics --><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "4ce3740bf8014bc4b2ed649eee98436a"}'></script><!-- End Cloudflare Web Analytics -->
+  </body>
+</html>
