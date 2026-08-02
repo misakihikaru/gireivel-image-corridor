@@ -29,12 +29,18 @@ const rooms = [
   }
 ];
 
+const OBSERVATION_STORAGE_KEY = "gireivel.observation.v1";
+
 const roomDoors = document.querySelector("[data-room-doors]");
 const mapLinks = document.querySelector("[data-map-links]");
 const mapToggle = document.querySelector(".map-toggle");
 const mapClose = document.querySelector(".map-close");
 const manorMap = document.querySelector("[data-manor-map]");
 const mapScrim = document.querySelector("[data-map-scrim]");
+const manorScar = document.querySelector("[data-manor-scar]");
+const scarToggle = document.querySelector("[data-scar-toggle]");
+const scarQuestionWrap = document.querySelector("[data-scar-question-wrap]");
+const scarQuestion = document.querySelector("[data-scar-question]");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 let lastFocusedElement = null;
@@ -61,6 +67,49 @@ function renderRooms() {
   }
 }
 
+function readObservationScar() {
+  try {
+    const stored = JSON.parse(window.localStorage.getItem(OBSERVATION_STORAGE_KEY));
+    const appeal = stored?.last?.appeal;
+    if (!appeal?.question || typeof appeal.question !== "string") return null;
+
+    return {
+      question: appeal.question,
+      recordId: stored.last.id || "Observation Record"
+    };
+  } catch {
+    return null;
+  }
+}
+
+function closeScarQuestion() {
+  scarToggle?.setAttribute("aria-expanded", "false");
+  if (scarQuestionWrap) scarQuestionWrap.hidden = true;
+}
+
+function renderObservationScar() {
+  const scar = readObservationScar();
+  if (!manorScar) return;
+
+  manorScar.hidden = !scar;
+  manorMap?.classList.toggle("has-scar", Boolean(scar));
+
+  if (!scar) {
+    closeScarQuestion();
+    if (scarQuestion) scarQuestion.textContent = "";
+    return;
+  }
+
+  if (scarQuestion) scarQuestion.textContent = scar.question;
+}
+
+function toggleScarQuestion() {
+  if (!scarQuestionWrap || manorScar?.hidden) return;
+  const willOpen = scarQuestionWrap.hidden;
+  scarQuestionWrap.hidden = !willOpen;
+  scarToggle?.setAttribute("aria-expanded", String(willOpen));
+}
+
 function openMap() {
   lastFocusedElement = document.activeElement;
   document.body.classList.add("is-map-open");
@@ -75,6 +124,7 @@ function closeMap() {
   document.body.classList.remove("is-map-open");
   mapToggle?.setAttribute("aria-expanded", "false");
   manorMap?.setAttribute("aria-hidden", "true");
+  closeScarQuestion();
   lastFocusedElement?.focus();
 }
 
@@ -97,6 +147,7 @@ function handlePointerMove(event) {
 }
 
 renderRooms();
+renderObservationScar();
 
 window.addEventListener("load", () => {
   document.body.classList.add("is-ready");
@@ -105,8 +156,12 @@ window.addEventListener("load", () => {
 mapToggle?.addEventListener("click", openMap);
 mapClose?.addEventListener("click", closeMap);
 mapScrim?.addEventListener("click", closeMap);
+scarToggle?.addEventListener("click", toggleScarQuestion);
 window.addEventListener("pointermove", handlePointerMove, { passive: true });
 window.addEventListener("pointerleave", () => setMotionVars());
+window.addEventListener("storage", (event) => {
+  if (event.key === OBSERVATION_STORAGE_KEY) renderObservationScar();
+});
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") closeMap();

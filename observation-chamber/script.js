@@ -1,5 +1,5 @@
 const STORAGE_KEY = "gireivel.observation.v1";
-const STORAGE_VERSION = 1;
+const STORAGE_VERSION = 2;
 
 const questions = [
   {
@@ -153,6 +153,85 @@ const dominantTraceFragments = {
   ]
 };
 
+const counterTargetLabels = {
+  opening: "起点 / Opening",
+  reading: "構造 / Reading",
+  closing: "結論 / Closing"
+};
+
+const counterPatternLibraries = {
+  premise: {
+    summaries: [
+      "貴方は結論そのものより、それが成立する前提へ刃を入れました。観測を拒むだけでなく、観測装置の目盛りを疑った構文です。",
+      "反証は結果の否定ではなく、結果を支えた基準へ向けられています。少なくとも、嫌悪を論拠の代用品にはしなかったようですね。"
+    ],
+    questions: [
+      "その前提を退けたあと、代わりに何を判断基準として置きますか。",
+      "借り物ではない前提だと証明するために、貴方は何を引き受けますか。"
+    ]
+  },
+  agency: {
+    summaries: [
+      "反証によって、判断の主語は観測者から貴方自身へ戻りました。誤読を指摘すると同時に、自分で定義する権利を取り戻そうとしています。",
+      "貴方は観測結果に別の自己定義を差し出しました。否定より選択が強く現れたため、これは責任を伴う反証として残ります。"
+    ],
+    questions: [
+      "自分で定義する権利を持つなら、その定義が生む結果も同じように所有しますか。",
+      "誰にも同意されなくても、その自己定義を判断基準として使い続けますか。"
+    ]
+  },
+  condition: {
+    summaries: [
+      "貴方は観測を誤りと断じる代わりに、成立条件を追加しました。精密化にも見えますが、条件は退路としてもよく働きます。",
+      "反証の中心は例外条件でした。結論を壊したのではなく、適用範囲を狭めて自分を外へ出した構造です。"
+    ],
+    questions: [
+      "追加した条件をすべて外したとき、それでも同じ結論を拒めますか。",
+      "その例外を他者にも同じ基準で認めるなら、何が残りますか。"
+    ]
+  },
+  displacement: {
+    summaries: [
+      "誤りの原因は、観測者、質問、状況の側へ移されました。移動が妥当かどうかより、貴方自身の基準がまだ空席であることが残ります。",
+      "反証は外側の不備をよく指摘しました。しかし、外側を取り除いたあとに残る貴方自身の説明は、まだ提出されていません。"
+    ],
+    questions: [
+      "観測者の誤読を取り除いたあと、貴方の文章にはどんな自己説明が残りますか。",
+      "外側に原因を置かずに語るなら、同じ反証をどの主語で書き直しますか。"
+    ]
+  },
+  reframing: {
+    summaries: [
+      "貴方は語の定義を組み替え、観測と異なる枠を置きました。逃避とは限りませんが、新しい額縁もまた作品の一部です。",
+      "否定より言い換えが優位でした。同じ材料へ別の名前を与え、その名称によって結論の位置を動かしています。"
+    ],
+    questions: [
+      "その新しい定義を他者へ適用されたときも、同じ意味として受け入れますか。",
+      "名前を再び外したとき、二つの解釈を分ける具体的な差は何ですか。"
+    ]
+  },
+  concession: {
+    summaries: [
+      "貴方は観測の一部を認め、境界線だけを争いました。全面否定より精度は高い。ただし、認めた箇所はもう外へ捨てられません。",
+      "反証の内部に承認が残っています。異議は結果を消さず、どこまでなら所有できるかという線引きへ変わりました。"
+    ],
+    questions: [
+      "認めた部分だけを残すなら、それは今後どの選択に責任を持たせますか。",
+      "拒んだ境界と受け入れた境界を分けた基準は、本当に同じものですか。"
+    ]
+  },
+  denial: {
+    summaries: [
+      "誤っているという宣言は明瞭でした。しかし、代わりの前提はまだ空白です。否定は扉を閉じますが、部屋の所在までは示しません。",
+      "反発は記録されましたが、反証を支える基準は十分に置かれていません。拒絶の強度を、説明の精度と取り違えないことです。"
+    ],
+    questions: [
+      "否定の言葉を一度外し、代わりの説明だけで同じ主張を組み立てられますか。",
+      "誤りだと示すために必要な基準を、一文で置くなら何ですか。"
+    ]
+  }
+};
+
 const elements = {
   views: [...document.querySelectorAll("[data-view]")],
   stageStatus: document.querySelector("[data-stage-status]"),
@@ -185,6 +264,19 @@ const elements = {
   confidenceLabel: document.querySelector("[data-confidence-label]"),
   traceList: document.querySelector("[data-trace-list]"),
   recordVisit: document.querySelector("[data-record-visit]"),
+  counterThreshold: document.querySelector("[data-counter-threshold]"),
+  openCounter: document.querySelector("[data-open-counter]"),
+  counterForm: document.querySelector("[data-counter-form]"),
+  cancelCounter: document.querySelector("[data-cancel-counter]"),
+  counterAnswer: document.querySelector("[data-counter-answer]"),
+  counterCharacterCount: document.querySelector("[data-counter-character-count]"),
+  counterError: document.querySelector("[data-counter-error]"),
+  counterTargetCopies: [...document.querySelectorAll("[data-counter-target-copy]")],
+  counterRecord: document.querySelector("[data-counter-record]"),
+  counterRecordId: document.querySelector("[data-counter-record-id]"),
+  counterResultTarget: document.querySelector("[data-counter-result-target]"),
+  counterResultSummary: document.querySelector("[data-counter-result-summary]"),
+  counterResultQuestion: document.querySelector("[data-counter-result-question]"),
   observeAgain: document.querySelector("[data-observe-again]"),
   burnRecord: document.querySelector("[data-burn-record]"),
   burnDialog: document.querySelector("[data-burn-dialog]"),
@@ -200,6 +292,7 @@ let sessionSeed = 2166136261;
 let totalCharacters = 0;
 let silenceCount = 0;
 let isSealing = false;
+let activeRecord = null;
 
 function createSignalSet() {
   return {
@@ -483,6 +576,118 @@ function hashText(text, seed = 2166136261) {
   return hash >>> 0;
 }
 
+function createCounterRecord(rawAnswer, target, record) {
+  const text = rawAnswer.normalize("NFKC").replace(/\s+/g, " ").trim();
+  const compactLength = text.replace(/\s/g, "").length;
+  const firstPerson = countTerms(text, ["私", "俺", "僕", "自分", "わたし", "わたくし"]);
+  const responsibility = countTerms(text, [
+    "責任",
+    "引き受け",
+    "選ぶ",
+    "選んだ",
+    "決める",
+    "決めた",
+    "私が",
+    "俺が",
+    "自分が"
+  ]);
+  const premise = countTerms(text, [
+    "前提",
+    "基準",
+    "根拠",
+    "定義",
+    "解釈",
+    "文脈",
+    "意味",
+    "成り立"
+  ]);
+  const conditional = countTerms(text, ["もし", "なら", "場合", "次第", "限り", "によって", "ときだけ"]);
+  const external = countTerms(text, [
+    "相手",
+    "他人",
+    "社会",
+    "状況",
+    "質問",
+    "観測者",
+    "観測側",
+    "判定",
+    "そちら"
+  ]);
+  const reframing = countTerms(text, [
+    "ではなく",
+    "というより",
+    "むしろ",
+    "言い換",
+    "区別",
+    "二択",
+    "別の意味"
+  ]);
+  const concession = countTerms(text, ["確かに", "一部", "認め", "その点", "当たって", "否定しない"]);
+  const denial = countTerms(text, [
+    "違う",
+    "誤り",
+    "誤って",
+    "間違",
+    "当たっていない",
+    "そうではない",
+    "否定"
+  ]);
+  const causal = countTerms(text, ["なぜなら", "だから", "ため", "理由", "ゆえ", "ので"]);
+  const contrast = countTerms(text, ["でも", "しかし", "けれど", "ただし", "一方", "それでも"]);
+  const seed = hashText(`${target}|${text}`, record.seed);
+  const structuralEvidence =
+    firstPerson +
+    responsibility +
+    premise +
+    conditional +
+    external +
+    reframing +
+    concession +
+    denial +
+    causal +
+    contrast;
+
+  let pattern = "premise";
+  if (structuralEvidence === 0) {
+    pattern = "denial";
+  } else if (compactLength < 24 && denial > 0 && premise + causal + responsibility === 0) {
+    pattern = "denial";
+  } else {
+    const scores = {
+      premise: premise * 8 + causal * 2 + contrast,
+      agency: firstPerson * 3 + responsibility * 7 + causal,
+      condition: conditional * 8 + contrast * 2,
+      displacement: external * 6 + conditional,
+      reframing: reframing * 8 + premise * 2 + contrast,
+      concession: concession * 10 + contrast * 2,
+      denial: denial * 3 + (compactLength < 42 ? 3 : 0)
+    };
+    const highest = Math.max(...Object.values(scores));
+    const candidates = Object.entries(scores)
+      .filter(([, value]) => value === highest)
+      .map(([key]) => key);
+    pattern = candidates[seed % candidates.length];
+  }
+
+  const library = counterPatternLibraries[pattern] || counterPatternLibraries.premise;
+  const summary = library.summaries[seed % library.summaries.length];
+  const question = library.questions[(seed >>> 5) % library.questions.length];
+  const scarIntensity = clamp(
+    Math.round(30 + Math.min(compactLength, 120) * 0.34 + (contrast + premise + responsibility) * 3),
+    32,
+    92
+  );
+
+  return {
+    timestamp: new Date().toISOString(),
+    target,
+    pattern,
+    summary,
+    question,
+    scarIntensity
+  };
+}
+
 function makeRecordId(seed, timestamp) {
   const date = new Date(timestamp);
   const year = String(date.getFullYear()).slice(-2);
@@ -553,14 +758,17 @@ function readStoredHistory() {
 
     const parsed = JSON.parse(raw);
     if (
-      parsed?.version !== STORAGE_VERSION ||
+      ![1, STORAGE_VERSION].includes(parsed?.version) ||
       typeof parsed?.completed !== "number" ||
       !parsed?.last?.traces
     ) {
       return null;
     }
 
-    return parsed;
+    return {
+      ...parsed,
+      version: STORAGE_VERSION
+    };
   } catch {
     return null;
   }
@@ -650,7 +858,12 @@ function resetSession() {
   totalCharacters = 0;
   silenceCount = 0;
   isSealing = false;
+  activeRecord = null;
   document.body.classList.remove("is-sealing");
+  resetCounterForm();
+  if (elements.counterThreshold) elements.counterThreshold.hidden = false;
+  if (elements.counterForm) elements.counterForm.hidden = true;
+  if (elements.counterRecord) elements.counterRecord.hidden = true;
   updateQuestion();
 }
 
@@ -730,7 +943,7 @@ function confidenceText(confidence) {
   return "Legibility Faint";
 }
 
-function renderResult(record) {
+function getResultCopy(record) {
   const library = resultLibraries[record.observer] || resultLibraries.lacrevex;
   const variants = record.variants || {
     title: record.seed % 3,
@@ -742,22 +955,67 @@ function renderResult(record) {
   const dominantFragments =
     dominantTraceFragments[record.dominantTrace] || dominantTraceFragments.fracture;
 
+  return {
+    library,
+    title: library.titles[variants.title % library.titles.length],
+    opening:
+      record.confidence < 32
+        ? "提出された材料は乏しく、断定に値しません。ただし、語らないという選択だけは明瞭に残りました。沈黙は空白ではなく、情報量を自分で制限した記録です。"
+        : library.openings[variants.opening % library.openings.length],
+    reading: `${library.readings[variants.reading % library.readings.length]} ${
+      dominantFragments[variants.dominant % dominantFragments.length]
+    }`,
+    closing: library.closings[variants.closing % library.closings.length]
+  };
+}
+
+function resetCounterForm() {
+  elements.counterForm?.reset();
+  if (elements.counterAnswer) elements.counterAnswer.value = "";
+  if (elements.counterCharacterCount) elements.counterCharacterCount.textContent = "0";
+  if (elements.counterError) elements.counterError.textContent = "";
+}
+
+function renderCounterRecord(record) {
+  const appeal = record?.appeal;
+  const hasAppeal = Boolean(appeal?.question && appeal?.summary);
+
+  if (elements.counterThreshold) elements.counterThreshold.hidden = hasAppeal;
+  if (elements.counterForm) elements.counterForm.hidden = true;
+  if (elements.counterRecord) elements.counterRecord.hidden = !hasAppeal;
+
+  if (!hasAppeal) {
+    resetCounterForm();
+    return;
+  }
+
+  elements.counterRecordId.textContent = `${record.id}-R`;
+  elements.counterResultTarget.textContent =
+    counterTargetLabels[appeal.target] || counterTargetLabels.reading;
+  elements.counterResultSummary.textContent = appeal.summary;
+  elements.counterResultQuestion.textContent = appeal.question;
+}
+
+function renderResult(record) {
+  activeRecord = record;
+  const copy = getResultCopy(record);
+  const { library } = copy;
+
   elements.recordId.textContent = record.id;
   elements.resultObserver.textContent = library.name;
   elements.resultKicker.textContent = library.kicker;
-  elements.resultTitle.textContent = library.titles[variants.title % library.titles.length];
-  elements.resultOpening.textContent =
-    record.confidence < 32
-      ? "提出された材料は乏しく、断定に値しません。ただし、語らないという選択だけは明瞭に残りました。沈黙は空白ではなく、情報量を自分で制限した記録です。"
-      : library.openings[variants.opening % library.openings.length];
-  elements.resultReading.textContent = `${
-    library.readings[variants.reading % library.readings.length]
-  } ${dominantFragments[variants.dominant % dominantFragments.length]}`;
-  elements.resultClosing.textContent =
-    library.closings[variants.closing % library.closings.length];
+  elements.resultTitle.textContent = copy.title;
+  elements.resultOpening.textContent = copy.opening;
+  elements.resultReading.textContent = copy.reading;
+  elements.resultClosing.textContent = copy.closing;
   elements.resultSignature.textContent = library.signature;
   elements.confidenceLabel.textContent = confidenceText(record.confidence);
   elements.recordVisit.textContent = String(record.visit).padStart(2, "0");
+
+  elements.counterTargetCopies.forEach((targetCopy) => {
+    const key = targetCopy.dataset.counterTargetCopy;
+    targetCopy.textContent = copy[key] || "";
+  });
 
   elements.traceList.replaceChildren(
     ...traceDefinitions.map((definition) => {
@@ -781,8 +1039,61 @@ function renderResult(record) {
     Object.keys(record.traces).length;
   document.documentElement.style.setProperty(
     "--scar-intensity",
-    String(clamp(averageScar / 100, 0.2, 0.82))
+    String(
+      clamp(
+        Math.max(averageScar / 100, (Number(record.appeal?.scarIntensity) || 0) / 100),
+        0.2,
+        0.92
+      )
+    )
   );
+
+  renderCounterRecord(record);
+}
+
+function openCounterObservation() {
+  if (!activeRecord || activeRecord.appeal) return;
+  elements.counterThreshold.hidden = true;
+  elements.counterForm.hidden = false;
+  elements.counterRecord.hidden = true;
+  setStageStatus("06 / Counter-Observation");
+  window.setTimeout(() => elements.counterAnswer?.focus(), reducedMotion.matches ? 0 : 120);
+}
+
+function closeCounterObservation() {
+  if (!activeRecord || activeRecord.appeal) return;
+  resetCounterForm();
+  elements.counterForm.hidden = true;
+  elements.counterThreshold.hidden = false;
+  setStageStatus("05 / Record");
+  elements.openCounter?.focus();
+}
+
+function sealCounterObservation(rawAnswer, target) {
+  if (!activeRecord || activeRecord.appeal) return;
+
+  let transientAnswer = rawAnswer;
+  const appeal = createCounterRecord(transientAnswer, target, activeRecord);
+  transientAnswer = "";
+  activeRecord.appeal = appeal;
+
+  if (storedHistory?.last?.id === activeRecord.id) {
+    storedHistory = {
+      ...storedHistory,
+      version: STORAGE_VERSION,
+      last: activeRecord
+    };
+    writeStoredHistory(storedHistory);
+  }
+
+  resetCounterForm();
+  renderCounterRecord(activeRecord);
+  document.documentElement.style.setProperty(
+    "--scar-intensity",
+    String(clamp(appeal.scarIntensity / 100, 0.32, 0.92))
+  );
+  setStageStatus("06 / Counter Record");
+  window.setTimeout(() => elements.counterRecord?.focus(), reducedMotion.matches ? 0 : 120);
 }
 
 function renderPriorRecord() {
@@ -806,7 +1117,13 @@ function renderPriorRecord() {
     Object.keys(record.traces).length;
   document.documentElement.style.setProperty(
     "--scar-intensity",
-    String(clamp(averageScar / 100, 0.2, 0.82))
+    String(
+      clamp(
+        Math.max(averageScar / 100, (Number(record.appeal?.scarIntensity) || 0) / 100),
+        0.2,
+        0.92
+      )
+    )
   );
 }
 
@@ -814,6 +1131,7 @@ function openPriorRecord() {
   if (!storedHistory?.last) return;
   renderResult(storedHistory.last);
   activateView("result", elements.resultTitle);
+  if (storedHistory.last.appeal) setStageStatus("06 / Counter Record");
 }
 
 function requestBurnRecord() {
@@ -846,6 +1164,8 @@ function burnStoredRecord() {
 elements.begin?.addEventListener("click", startObservation);
 elements.openPrior?.addEventListener("click", openPriorRecord);
 elements.observeAgain?.addEventListener("click", startObservation);
+elements.openCounter?.addEventListener("click", openCounterObservation);
+elements.cancelCounter?.addEventListener("click", closeCounterObservation);
 elements.burnRecord?.addEventListener("click", requestBurnRecord);
 elements.confirmBurn?.addEventListener("click", burnStoredRecord);
 
@@ -877,6 +1197,38 @@ elements.form?.addEventListener("submit", (event) => {
 
 elements.submitSilence?.addEventListener("click", () => {
   sealAnswer("", true);
+});
+
+elements.counterAnswer?.addEventListener("input", () => {
+  elements.counterCharacterCount.textContent = String(elements.counterAnswer.value.length);
+  if (elements.counterError.textContent) elements.counterError.textContent = "";
+});
+
+elements.counterAnswer?.addEventListener("keydown", (event) => {
+  if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
+    event.preventDefault();
+    elements.counterForm.requestSubmit();
+  }
+});
+
+elements.counterForm?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const answer = elements.counterAnswer.value.trim();
+  const target = elements.counterForm.querySelector('input[name="counter-target"]:checked')?.value;
+
+  if (!counterTargetLabels[target]) {
+    elements.counterError.textContent = "拒む層を一つ選んでください。対象のない反発は、反証ではなく騒音です。";
+    return;
+  }
+
+  if (answer.replace(/\s/g, "").length < 8) {
+    elements.counterError.textContent =
+      "短すぎます。誤りという宣言ではなく、代わりに置く前提まで渡してください。";
+    elements.counterAnswer.focus();
+    return;
+  }
+
+  sealCounterObservation(answer, target);
 });
 
 elements.burnDialog?.addEventListener("close", () => {

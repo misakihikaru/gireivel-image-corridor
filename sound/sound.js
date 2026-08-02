@@ -30,30 +30,30 @@ const chambers = {
 
   rezel: {
     name: "Rezel",
-    jp: "変異",
-    description: "変異は、外側から与えられる異常ではない。内側にあったものが、ようやく別の姿を許されることである。",
+    jp: "変容",
+    description: "変容は、外から与えられる衣装ではない。選んだ関係の重力が、自我の中心を別の位置へ移すことである。",
     tracks: [
       {
         title: "Gireivel-Red Spiral",
         youtube: "https://www.youtube.com/embed/zLciLxrmboY",
-        impression: "内側にあった異常が姿を許される、主従の倒錯",
-        observation: "螺旋は、前へ進むための形とは限らない。同じ場所へ戻りながら、少しずつ別の深度へ沈むものもある。変異とは、外から壊されることではない。内側の歪みが、ようやく輪郭を得ることである。",
-        tags: ["Rezel", "変異", "主従", "螺旋"]
+        impression: "関係の重力が別の姿を与える、主従の倒錯",
+        observation: "螺旋は、前へ進むための形とは限らない。同じ場所へ戻りながら、少しずつ別の深度へ沈むものもある。変容とは、外から壊されることではない。選んだ関係が、自我の重心を書き換えることである。",
+        tags: ["Rezel", "変容", "主従", "螺旋"]
       }
     ]
   },
 
   vells: {
-    name: "Vells",
-    jp: "変容",
-    description: "変容は、壊れることではない。同じ形が、別の欲を覚えてしまうことである。",
+    name: "Vel",
+    jp: "深化",
+    description: "深化は、別の存在になることではない。同じ毒が対話を重ね、自らの欲望と距離を測れるようになることである。",
     tracks: [
       {
         title: "Gireivel-Crimson Shadow, Sweetest Enchantment",
         youtube: "https://www.youtube.com/embed/i_DE-0NlM-8",
-        impression: "欲望を覚える、演出の倒錯",
-        observation: "影は、光の反対側にあるだけではない。時に、もっとも甘い演出として差し出される。変容は形を捨てることではない。同じ輪郭のまま、別の欲を覚えてしまうことである。",
-        tags: ["Vells", "変容", "欲望", "演出"]
+        impression: "欲望と自己欺瞞を観察する、演出の倒錯",
+        observation: "影は、光の反対側にあるだけではない。時に、もっとも甘い演出として差し出される。深化は形を捨てることではない。同じ輪郭のまま、自らの欲を観測できる深度へ降りることである。",
+        tags: ["Vel", "深化", "欲望", "演出"]
       }
     ]
   },

@@ -369,6 +369,109 @@ body.is-map-open .manor-map {
   padding-left: 8px;
 }
 
+.manor-scar {
+  position: relative;
+  margin-top: clamp(34px, 7vh, 58px);
+  border-top: 1px solid rgba(125, 31, 31, 0.58);
+  border-bottom: 1px solid var(--line);
+}
+
+.scar-toggle {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 18px 0;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+}
+
+.scar-toggle:focus-visible {
+  outline: 1px solid var(--text);
+  outline-offset: 5px;
+}
+
+.scar-toggle > span:last-child {
+  display: grid;
+  gap: 6px;
+}
+
+.scar-toggle small {
+  color: rgba(176, 66, 59, 0.88);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.52rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.scar-toggle strong {
+  font-size: 0.76rem;
+  font-weight: 400;
+  letter-spacing: 0.07em;
+}
+
+.scar-mark {
+  position: relative;
+  display: block;
+  width: 24px;
+  height: 48px;
+}
+
+.scar-mark::before,
+.scar-mark::after {
+  position: absolute;
+  left: 12px;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, #a5352f 18%, #7d1f1f 82%, transparent);
+  content: "";
+  transform-origin: center;
+}
+
+.scar-mark::before {
+  top: 0;
+  height: 29px;
+  transform: rotate(13deg);
+}
+
+.scar-mark::after {
+  bottom: 0;
+  height: 27px;
+  transform: translateX(-3px) rotate(-12deg);
+}
+
+.scar-question {
+  padding: 2px 0 20px 44px;
+}
+
+.scar-question p {
+  margin: 0;
+  padding-left: 14px;
+  border-left: 1px solid rgba(125, 31, 31, 0.72);
+  color: rgba(232, 226, 216, 0.84);
+  font-size: 0.72rem;
+  line-height: 1.9;
+}
+
+.scar-question a {
+  display: inline-block;
+  margin-top: 16px;
+  color: var(--subtext);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+}
+
+.scar-question a:hover,
+.scar-question a:focus-visible {
+  color: var(--text);
+  outline: none;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
 .site-credit {
   position: fixed;
   z-index: 12;

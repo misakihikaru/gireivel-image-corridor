@@ -1264,6 +1264,255 @@ main {
   margin: 0;
 }
 
+.counter-observation {
+  border-top: 1px solid var(--line);
+  background:
+    linear-gradient(118deg, rgba(125, 31, 31, 0.08), transparent 44%),
+    rgba(3, 3, 3, 0.38);
+}
+
+.counter-threshold {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: clamp(34px, 6vw, 86px);
+  padding: clamp(34px, 5vw, 62px) clamp(22px, 4vw, 48px);
+}
+
+.counter-threshold h3,
+.counter-record h3 {
+  margin: 16px 0 0;
+  font-size: clamp(1.7rem, 3.4vw, 3.2rem);
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+.counter-threshold p:not(.section-label) {
+  max-width: 720px;
+  margin: 22px 0 0;
+  color: var(--ivory-soft);
+  font-size: 0.82rem;
+  line-height: 2;
+}
+
+.counter-open {
+  display: grid;
+  min-width: min(300px, 100%);
+  padding: 18px 22px;
+  border: 1px solid var(--line-strong);
+  background: rgba(5, 5, 5, 0.52);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 180ms ease, background 180ms ease;
+}
+
+.counter-open span:first-child {
+  font-size: 0.82rem;
+  letter-spacing: 0.05em;
+}
+
+.counter-open span:last-child {
+  margin-top: 9px;
+  color: var(--muted);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.54rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.counter-open:hover,
+.counter-open:focus-visible {
+  border-color: var(--blood-bright);
+  background: rgba(125, 31, 31, 0.1);
+}
+
+.counter-form {
+  padding: clamp(34px, 6vw, 70px) clamp(22px, 6vw, 82px);
+  border-top: 1px solid var(--line);
+}
+
+.counter-form fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.counter-form legend {
+  padding: 0;
+  font-size: clamp(1.5rem, 3vw, 2.6rem);
+  line-height: 1.55;
+}
+
+.counter-instruction {
+  max-width: 760px;
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.9;
+}
+
+.counter-targets {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin: clamp(30px, 5vw, 52px) 0 38px;
+  border: 1px solid var(--line);
+  background: var(--line);
+}
+
+.counter-targets label {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  background: rgba(5, 5, 5, 0.96);
+  cursor: pointer;
+}
+
+.counter-targets input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.counter-targets label > span {
+  display: grid;
+  align-content: start;
+  min-height: 148px;
+  padding: 20px;
+  border: 1px solid transparent;
+  transition: border-color 180ms ease, background 180ms ease;
+}
+
+.counter-targets b {
+  color: var(--ivory);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.64rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.counter-targets small {
+  display: -webkit-box;
+  margin-top: 15px;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 0.66rem;
+  line-height: 1.75;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.counter-targets label:hover > span,
+.counter-targets input:focus-visible + span {
+  border-color: var(--line-strong);
+}
+
+.counter-targets label:has(input:checked) > span {
+  border-color: var(--blood-bright);
+  background: rgba(125, 31, 31, 0.11);
+}
+
+.counter-answer-frame {
+  max-width: 920px;
+}
+
+.counter-form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 26px;
+  max-width: 920px;
+  margin-top: 30px;
+}
+
+.counter-form-actions .primary-action {
+  min-width: 260px;
+}
+
+.counter-record {
+  padding: clamp(38px, 6vw, 74px) clamp(22px, 6vw, 82px);
+  border-top: 1px solid var(--line);
+}
+
+.counter-record > header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 36px;
+}
+
+.counter-record-id {
+  margin: 0;
+  color: var(--muted);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.11em;
+}
+
+.counter-record-layout {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.38fr) minmax(0, 1fr);
+  gap: 1px;
+  margin-top: clamp(34px, 5vw, 58px);
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.counter-record-layout > div,
+.counter-record-layout blockquote {
+  margin: 0;
+  padding: clamp(22px, 3vw, 34px);
+  background: rgba(5, 5, 5, 0.94);
+}
+
+.counter-record-layout blockquote {
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--blood);
+  color: var(--ivory);
+  font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+  line-height: 1.9;
+}
+
+.counter-record-label {
+  margin: 0 0 13px;
+  color: var(--blood-bright);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.55rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.counter-record-layout strong,
+.counter-record-layout div > p:last-child {
+  margin: 0;
+  color: var(--ivory-soft);
+  font-size: 0.78rem;
+  font-weight: 400;
+  line-height: 2;
+}
+
+.counter-record > footer {
+  display: grid;
+  justify-items: end;
+  margin-top: 34px;
+}
+
+.counter-record > footer span {
+  letter-spacing: 0.08em;
+}
+
+.counter-record > footer small {
+  margin-top: 8px;
+  color: var(--muted);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.5rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
 .record-actions {
   display: flex;
   flex-wrap: wrap;
@@ -1460,6 +1709,14 @@ main {
     grid-template-columns: 1fr;
   }
 
+  .counter-targets {
+    grid-template-columns: 1fr;
+  }
+
+  .counter-targets label > span {
+    min-height: 0;
+  }
+
   .verdict {
     border-right: 0;
     border-bottom: 1px solid var(--line);
@@ -1576,6 +1833,32 @@ main {
 
   .record-actions {
     padding: 24px 22px;
+  }
+
+  .counter-threshold,
+  .counter-record > header,
+  .counter-form-actions {
+    align-items: stretch;
+    grid-template-columns: 1fr;
+    flex-direction: column;
+  }
+
+  .counter-open,
+  .counter-form-actions .primary-action {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .counter-form-actions .text-action {
+    align-self: flex-start;
+  }
+
+  .counter-record-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .counter-record-layout blockquote {
+    grid-column: auto;
   }
 
   .manor-return {

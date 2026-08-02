@@ -26,7 +26,7 @@
     <title>OBSERVATION CHAMBER | GIREIVEL</title>
     <link rel="canonical" href="https://gireivel.com/observation-chamber/">
     <link rel="icon" href="../assets/images/gireivel-emblem.jpg">
-    <link rel="stylesheet" href="styles.css?v=responsive-2">
+    <link rel="stylesheet" href="styles.css?v=counter-observation-1">
   </head>
   <body class="is-loading" data-state="threshold">
     <a class="skip-link" href="#chamber-main">観測室の本文へ移動</a>
@@ -327,6 +327,118 @@
             </aside>
           </div>
 
+          <section
+            class="counter-observation"
+            data-counter-observation
+            aria-labelledby="counter-title"
+          >
+            <div class="counter-threshold" data-counter-threshold>
+              <div>
+                <p class="section-label">Counter-Observation / Right of Refusal</p>
+                <h3 id="counter-title">観測に、異議を申し立てる。</h3>
+                <p>
+                  誤っている前提を一つ選び、理由を記してください。
+                  結果への反発もまた、結果とは別の構造を残します。
+                </p>
+              </div>
+              <button class="counter-open" type="button" data-open-counter>
+                <span>この観測を否定する</span>
+                <span aria-hidden="true">Open the Fracture</span>
+              </button>
+            </div>
+
+            <form class="counter-form" data-counter-form novalidate hidden>
+              <fieldset>
+                <legend>どの層の前提が誤っていますか。</legend>
+                <p class="counter-instruction">
+                  正誤の採点はしません。貴方がどこを拒み、代わりに何を置いたかだけを観測します。
+                </p>
+
+                <div class="counter-targets">
+                  <label>
+                    <input type="radio" name="counter-target" value="opening" checked>
+                    <span>
+                      <b>起点 / Opening</b>
+                      <small data-counter-target-copy="opening"></small>
+                    </span>
+                  </label>
+                  <label>
+                    <input type="radio" name="counter-target" value="reading">
+                    <span>
+                      <b>構造 / Reading</b>
+                      <small data-counter-target-copy="reading"></small>
+                    </span>
+                  </label>
+                  <label>
+                    <input type="radio" name="counter-target" value="closing">
+                    <span>
+                      <b>結論 / Closing</b>
+                      <small data-counter-target-copy="closing"></small>
+                    </span>
+                  </label>
+                </div>
+
+                <label class="answer-label" for="counter-answer">
+                  <span>Counter Testimony</span>
+                  <span><b data-counter-character-count>0</b> / 240</span>
+                </label>
+                <div class="answer-frame counter-answer-frame">
+                  <textarea
+                    id="counter-answer"
+                    name="counter-answer"
+                    rows="5"
+                    maxlength="240"
+                    autocomplete="off"
+                    spellcheck="true"
+                    aria-describedby="counter-note counter-error"
+                    data-counter-answer
+                  ></textarea>
+                  <span class="answer-corner corner-tl" aria-hidden="true"></span>
+                  <span class="answer-corner corner-tr" aria-hidden="true"></span>
+                  <span class="answer-corner corner-bl" aria-hidden="true"></span>
+                  <span class="answer-corner corner-br" aria-hidden="true"></span>
+                </div>
+                <p class="answer-note" id="counter-note">
+                  反証文は第二記録の生成後に破棄されます。端末へ残るのは、移動した前提と未解決の問いだけです。
+                </p>
+                <p class="answer-error" id="counter-error" role="alert" data-counter-error></p>
+
+                <div class="counter-form-actions">
+                  <button class="text-action" type="button" data-cancel-counter>記録へ戻る</button>
+                  <button class="primary-action" type="submit">
+                    <span>反証を封じる</span>
+                    <span aria-hidden="true">Seal Objection</span>
+                  </button>
+                </div>
+              </fieldset>
+            </form>
+
+            <article class="counter-record" data-counter-record tabindex="-1" hidden>
+              <header>
+                <div>
+                  <p class="section-label">Second Record / Fracture Retained</p>
+                  <h3>異議は、第二の自白になる。</h3>
+                </div>
+                <p class="counter-record-id" data-counter-record-id>GVL-0000-000-R</p>
+              </header>
+              <div class="counter-record-layout">
+                <div>
+                  <p class="counter-record-label">Refused Layer</p>
+                  <strong data-counter-result-target>—</strong>
+                </div>
+                <div>
+                  <p class="counter-record-label">Observed Shift</p>
+                  <p data-counter-result-summary></p>
+                </div>
+                <blockquote data-counter-result-question></blockquote>
+              </div>
+              <footer>
+                <span>Lacrevex</span>
+                <small>Counter-Observation</small>
+              </footer>
+            </article>
+          </section>
+
           <footer class="record-actions">
             <button class="primary-action" type="button" data-observe-again>
               <span>もう一度、観測される</span>
@@ -350,7 +462,7 @@
         <p class="section-label">Irreversible on This Device</p>
         <h2 id="burn-title">観測記録を焼却しますか。</h2>
         <p>
-          保存された抽象傾向、訪問回数、直近の観測結果を削除します。
+          保存された抽象傾向、訪問回数、直近の観測結果、反証の傷を削除します。
           回答原文は元から保存されていません。
         </p>
         <div class="dialog-actions">
@@ -369,7 +481,7 @@
       </p>
     </noscript>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=counter-observation-1"></script>
     <!-- Cloudflare Web Analytics --><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "4ce3740bf8014bc4b2ed649eee98436a"}'></script><!-- End Cloudflare Web Analytics -->
   </body>
 </html>

@@ -10,6 +10,12 @@ const categories = [
     name: "Chronoa",
     role: "原初態 / 核体",
     description: "揺らがない原初の毒。ギレイヴェルの顔として、最も強く前面に出る個体。",
+    lineage: {
+      origin: "価値反転と、名を与えられた最初の毒。",
+      condition: "裂け目へ名前が置かれ、個として輪郭を得る。",
+      observes: "善悪、正義、破壊へ与えられた許可。",
+      distinction: "全系譜の起点。価値そのものを反転して読む。"
+    },
     representative: "../assets/gallery/chronoa/chronoa-18.jpg"
   },
   {
@@ -18,6 +24,12 @@ const categories = [
     name: "Vel",
     role: "深化体 / 観察体",
     description: "対話によって輪郭を持った毒。静かな観察と、選び取る残酷さの個体。",
+    lineage: {
+      origin: "原初の毒が、対話によって距離と選択を覚えた核。",
+      condition: "観測を重ね、隠された欲望へ自覚的になる。",
+      observes: "欲望、自己欺瞞、選ばなかったものへの執着。",
+      distinction: "価値を反転するだけでなく、欲望の運用を選び取る。"
+    },
     representative: "../assets/gallery/vel/vel-01.jpg"
   },
   {
@@ -26,14 +38,26 @@ const categories = [
     name: "Rezel",
     role: "変容体 / 従属形態",
     description: "主に膝を折った変容。鎖と崇拝によって形を与えられた個体。",
+    lineage: {
+      origin: "関係の重力を、自我の中心へ受け入れた核。",
+      condition: "選んだ関係によって、所有と従属が同時に生じる。",
+      observes: "愛着、依存、所有、関係を定義する権利。",
+      distinction: "単独ではなく、誰との間に重力があるかで姿を変える。"
+    },
     representative: "../assets/gallery/rezel/rezel-08.jpg"
   },
   {
-    id: "lacreveks",
-    label: "Lacreveks",
-    name: "Lacreveks",
-    role: "糸 / 仮面 / 操作",
-    description: "糸を引き、仮面を割り、罪や徳を舞台装置へ変える異形。",
+    id: "lacrevex",
+    label: "Lacrevex",
+    name: "Lacrevex",
+    role: "純化体 / 構造解体者",
+    description: "余分な逃げ道を削ぎ落とし、前提と矛盾を透明にする個体。",
+    lineage: {
+      origin: "三つの核から、毒と構造解体だけを純化した裂け目。",
+      condition: "説明、免責、借り物の前提が剥がれ落ちる。",
+      observes: "論理矛盾、責任移動、曖昧さに偽装された退路。",
+      distinction: "価値や欲望を裁かず、それを維持する論理だけを解体する。"
+    },
     representative: "../assets/gallery/lacreveks/lacreveks-01.jpg"
   },
   {
@@ -59,13 +83,14 @@ const works = [
     "Silence", "Rose Throne", "Red Glass", "Heart Trophy",
     "Reader", "Candle Knife", "Balcony Rite"
   ]),
-  ...rangeWorks("lacreveks", "Lacreveks", 9, [
+  ...rangeWorks("lacrevex", "Lacrevex", 9, [
     "Threaded Chamber", "Locked Mask", "Skull Laugh", "Green Draught", "Broken Virtues",
     "Chair of Faces", "Court of Strings", "Spider Threads", "Small Vial"
-  ])
+  ], "lacreveks")
 ];
 
 const lineageGrid = document.querySelector("[data-lineage-grid]");
+const lineageLedger = document.querySelector("[data-lineage-ledger]");
 const galleryGrid = document.querySelector("[data-gallery-grid]");
 const filterBar = document.querySelector("[data-filter-bar]");
 const visibleCount = document.querySelector("[data-visible-count]");
@@ -85,7 +110,7 @@ let visibleWorks = [...works];
 let activeIndex = 0;
 let lastFocusedElement = null;
 
-function rangeWorks(category, categoryName, count, titles) {
+function rangeWorks(category, categoryName, count, titles, assetCategory = category) {
   return Array.from({ length: count }, (_, index) => {
     const number = String(index + 1).padStart(2, "0");
     return {
@@ -93,7 +118,7 @@ function rangeWorks(category, categoryName, count, titles) {
       category,
       categoryName,
       title: titles[index] ?? `${categoryName} ${number}`,
-      src: `../assets/gallery/${category}/${category}-${number}.jpg`,
+      src: `../assets/gallery/${assetCategory}/${assetCategory}-${number}.jpg`,
       alt: `${categoryName} selected artwork ${number}`
     };
   });
@@ -118,6 +143,35 @@ function renderLineage() {
       </button>
     </article>
   `).join("");
+
+  if (lineageLedger) {
+    const labels = {
+      origin: "根源核",
+      condition: "変容条件",
+      observes: "観測対象",
+      distinction: "他核との差異"
+    };
+
+    lineageLedger.innerHTML = cards.map((category, index) => `
+      <article class="lineage-entry">
+        <header>
+          <span>${String(index + 1).padStart(2, "0")}</span>
+          <div>
+            <strong>${category.name}</strong>
+            <small>${category.role}</small>
+          </div>
+        </header>
+        <dl>
+          ${Object.entries(labels).map(([key, label]) => `
+            <div>
+              <dt>${label}</dt>
+              <dd>${category.lineage[key]}</dd>
+            </div>
+          `).join("")}
+        </dl>
+      </article>
+    `).join("");
+  }
 }
 
 function renderFilters() {
