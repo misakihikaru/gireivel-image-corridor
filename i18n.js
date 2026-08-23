@@ -638,6 +638,7 @@
     if (document.querySelector("[data-language-switch]")) return;
     const control = document.createElement("div");
     control.className = "language-switch";
+    if (document.querySelector(".map-toggle")) control.classList.add("language-switch--manor");
     control.dataset.languageSwitch = "";
     control.dataset.i18nIgnore = "";
     control.setAttribute("role", "group");

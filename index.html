@@ -20,14 +20,14 @@
     <link rel="apple-touch-icon" href="./assets/images/gireivel-emblem.jpg">
     <link rel="manifest" href="./site.webmanifest">
     <link rel="stylesheet" href="./styles.css?v=counter-scar-1">
-    <link rel="stylesheet" href="./i18n.css?v=1">
+    <link rel="stylesheet" href="./i18n.css?v=2">
   </head>
   <body>
     <main class="manor-home">
       <div class="background" aria-hidden="true"></div>
       <div class="overlay" aria-hidden="true"></div>
 
-      <button class="map-toggle" type="button" aria-label="Open manor map" aria-expanded="false">
+      <button class="map-toggle" type="button" aria-label="Open manor map" aria-expanded="false" data-i18n-ignore>
         MANOR MAP
       </button>
 
@@ -35,9 +35,9 @@
         <img src="./assets/images/gireivel-emblem.jpg" alt="Gireivel Emblem" class="emblem">
 
         <p class="eyebrow">GIREIVEL</p>
-        <h1 id="manor-title">MANOR</h1>
+        <h1 id="manor-title" data-i18n-ignore>MANOR</h1>
 
-        <nav class="room-doors" aria-label="Gireivel rooms" data-room-doors></nav>
+        <nav class="room-doors" aria-label="Gireivel rooms" data-room-doors data-i18n-ignore></nav>
       </section>
 
       <p class="site-credit">GIREIVEL MANOR &copy; 2026. Observed and curated by Misaki Hikaru.</p>
@@ -46,8 +46,8 @@
 
       <aside class="manor-map" aria-hidden="true" aria-label="Manor map" data-manor-map>
         <button class="map-close" type="button" aria-label="Close manor map">&times;</button>
-        <p class="map-title">MANOR MAP</p>
-        <nav class="map-links" aria-label="Manor map rooms" data-map-links></nav>
+        <p class="map-title" data-i18n-ignore>MANOR MAP</p>
+        <nav class="map-links" aria-label="Manor map rooms" data-map-links data-i18n-ignore></nav>
 
         <section class="manor-scar" data-manor-scar hidden aria-labelledby="manor-scar-title">
           <button class="scar-toggle" type="button" data-scar-toggle aria-expanded="false">
@@ -65,7 +65,7 @@
       </aside>
     </main>
 
-    <script src="./i18n.js?v=1"></script>
+    <script src="./i18n.js?v=2"></script>
     <script src="./script.js?v=counter-scar-1"></script>
     <!-- Cloudflare Web Analytics --><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "4ce3740bf8014bc4b2ed649eee98436a"}'></script><!-- End Cloudflare Web Analytics -->
   </body>

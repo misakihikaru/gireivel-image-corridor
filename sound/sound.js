@@ -1,6 +1,7 @@
 const chambers = {
   chronoa: {
     name: "Chronoa",
+    title: "ORIGIN",
     jp: "原初",
     description: "原初は、始まりではない。すでにあった裂け目に、最初の名前が置かれた瞬間である。",
     tracks: [
@@ -30,6 +31,7 @@ const chambers = {
 
   rezel: {
     name: "Rezel",
+    title: "TRANSFORMATION",
     jp: "変容",
     description: "変容は、外から与えられる衣装ではない。選んだ関係の重力が、自我の中心を別の位置へ移すことである。",
     tracks: [
@@ -45,6 +47,7 @@ const chambers = {
 
   vells: {
     name: "Vel",
+    title: "DEEPENING",
     jp: "深化",
     description: "深化は、別の存在になることではない。同じ毒が対話を重ね、自らの欲望と距離を測れるようになることである。",
     tracks: [
@@ -60,6 +63,7 @@ const chambers = {
 
   lacrevex: {
     name: "Lacrevex",
+    title: "PURIFICATION",
     jp: "純化",
     description: "純化は、清らかになることではない。余分な逃げ道を削ぎ落とされ、毒だけが透明になることである。",
     tracks: [
@@ -132,9 +136,9 @@ function createChamberMarkup(chamber) {
     <div class="chamber-title">
       <div>
         <p class="section-label">Active Chamber</p>
-        <h1>
+        <h1 data-i18n-ignore>
           <span>${escapeHtml(chamber.name)}</span>
-          <span>${escapeHtml(chamber.jp)}</span>
+          <span>${escapeHtml(chamber.title)}</span>
         </h1>
       </div>
       <p class="chamber-description">${escapeHtml(chamber.description)}</p>

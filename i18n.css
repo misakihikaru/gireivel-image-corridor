@@ -57,10 +57,22 @@ html[lang="en"] .language-switch::before {
   outline-offset: 2px;
 }
 
+.language-switch--manor {
+  top: calc(clamp(16px, 3vw, 32px) + 2px);
+  right: calc(clamp(16px, 3vw, 36px) + 108px);
+  bottom: auto;
+}
+
 @media (max-width: 640px) {
   .language-switch {
     right: max(12px, env(safe-area-inset-right));
     bottom: max(12px, env(safe-area-inset-bottom));
+  }
+
+  .language-switch--manor {
+    top: 16px;
+    right: 120px;
+    bottom: auto;
   }
 }
 
