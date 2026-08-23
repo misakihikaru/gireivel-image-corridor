@@ -312,6 +312,11 @@ function clamp(value, min, max) {
 
 function countTerms(text, terms) {
   return terms.reduce((count, term) => {
+    if (/^[a-z]/i.test(term)) {
+      const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      return count + (text.match(new RegExp(`\\b${escaped}\\b`, "gi")) || []).length;
+    }
+
     let start = 0;
     let found = text.indexOf(term, start);
 
@@ -336,8 +341,8 @@ function analyzeAnswer(rawAnswer, questionIndex) {
   const compactLength = text.replace(/\s/g, "").length;
   const signals = createSignalSet();
 
-  const firstPerson = countTerms(text, ["私", "俺", "僕", "自分", "わたし", "わたくし"]);
-  const externalActors = countTerms(text, ["他人", "相手", "みんな", "社会", "世間", "環境", "誰か", "普通は"]);
+  const firstPerson = countTerms(text, ["私", "俺", "僕", "自分", "わたし", "わたくし", "i", "me", "my", "myself"]);
+  const externalActors = countTerms(text, ["他人", "相手", "みんな", "社会", "世間", "環境", "誰か", "普通は", "others", "another", "everyone", "society", "environment", "someone", "people"]);
   const responsibility = countTerms(text, [
     "責任",
     "引き受け",
@@ -349,9 +354,19 @@ function analyzeAnswer(rawAnswer, questionIndex) {
     "俺が",
     "自分が",
     "覚悟",
-    "結果"
+    "結果",
+    "responsibility",
+    "responsible",
+    "accountable",
+    "accept",
+    "own",
+    "choose",
+    "chose",
+    "decide",
+    "decided",
+    "consequence"
   ]);
-  const causal = countTerms(text, ["なぜなら", "だから", "ため", "理由", "ゆえ", "ので"]);
+  const causal = countTerms(text, ["なぜなら", "だから", "ため", "理由", "ゆえ", "ので", "because", "therefore", "reason", "since", "so that"]);
   const avoidance = countTerms(text, [
     "わからない",
     "分からない",
@@ -364,9 +379,19 @@ function analyzeAnswer(rawAnswer, questionIndex) {
     "どちらでも",
     "何とも",
     "答えられない",
-    "選べない"
+    "選べない",
+    "don't know",
+    "do not know",
+    "can't",
+    "cannot",
+    "depends",
+    "whatever",
+    "nothing",
+    "neither",
+    "unable",
+    "impossible to choose"
   ]);
-  const conditional = countTerms(text, ["もし", "なら", "場合", "次第", "限り", "によって"]);
+  const conditional = countTerms(text, ["もし", "なら", "場合", "次第", "限り", "によって", "if", "unless", "when", "depending", "provided"]);
   const contradiction = countTerms(text, [
     "でも",
     "しかし",
@@ -377,9 +402,15 @@ function analyzeAnswer(rawAnswer, questionIndex) {
     "とはいえ",
     "ただし",
     "反面",
-    "それでも"
+    "それでも",
+    "but",
+    "however",
+    "although",
+    "yet",
+    "nevertheless",
+    "on the other hand"
   ]);
-  const negation = countTerms(text, ["ない", "なく", "ません", "ぬ", "否定", "拒"]);
+  const negation = countTerms(text, ["ない", "なく", "ません", "ぬ", "否定", "拒", "not", "never", "no", "deny", "refuse"]);
   const exposure = countTerms(text, [
     "醜",
     "欲",
@@ -394,7 +425,22 @@ function analyzeAnswer(rawAnswer, questionIndex) {
     "嫉妬",
     "憎",
     "執着",
-    "逃げ"
+    "逃げ",
+    "ugly",
+    "ugliness",
+    "desire",
+    "want",
+    "fear",
+    "afraid",
+    "hate",
+    "weak",
+    "shame",
+    "admit",
+    "justify",
+    "jealous",
+    "envy",
+    "obsession",
+    "escape"
   ]);
   const attachment = countTerms(text, [
     "愛",
@@ -410,7 +456,20 @@ function analyzeAnswer(rawAnswer, questionIndex) {
     "相手",
     "誰か",
     "繋",
-    "結"
+    "結",
+    "love",
+    "protect",
+    "lose",
+    "understand",
+    "need",
+    "together",
+    "only",
+    "abandon",
+    "leave",
+    "relationship",
+    "someone",
+    "connect",
+    "bond"
   ]);
   const control = countTerms(text, [
     "壊",
@@ -424,7 +483,20 @@ function analyzeAnswer(rawAnswer, questionIndex) {
     "許す",
     "決める",
     "制御",
-    "選ばせ"
+    "選ばせ",
+    "destroy",
+    "control",
+    "command",
+    "obey",
+    "take",
+    "use",
+    "own",
+    "possess",
+    "allow",
+    "permit",
+    "decide",
+    "force",
+    "choose for"
   ]);
   const moral = countTerms(text, [
     "善",
@@ -437,7 +509,18 @@ function analyzeAnswer(rawAnswer, questionIndex) {
     "倫理",
     "道徳",
     "報酬",
-    "罰"
+    "罰",
+    "good",
+    "evil",
+    "justice",
+    "mercy",
+    "pure",
+    "right",
+    "wrong",
+    "ethic",
+    "moral",
+    "reward",
+    "punishment"
   ]);
 
   const lengthEvidence = Math.min(compactLength / 5, 18);
@@ -459,7 +542,7 @@ function analyzeAnswer(rawAnswer, questionIndex) {
   if (questionIndex === 0) {
     signals.control += control * 5;
     signals.responsibility += responsibility * 4;
-    if (text.includes("壊せない") || text.includes("壊さない")) {
+    if (text.includes("壊せない") || text.includes("壊さない") || /cannot destroy|can't destroy|will not destroy|destroy nothing/i.test(text)) {
       signals.moral += 8;
       signals.contradiction += 4;
     }
@@ -468,7 +551,7 @@ function analyzeAnswer(rawAnswer, questionIndex) {
   if (questionIndex === 1) {
     signals.moral += moral * 6;
     signals.responsibility += causal * 5;
-    if (/^(はい|いいえ|選ぶ|選ばない)[。.!！]?$/.test(text)) {
+    if (/^(はい|いいえ|選ぶ|選ばない|yes|no|choose|do not choose)[。.!！]?$/i.test(text)) {
       signals.avoidance += 20;
     }
   }
@@ -482,7 +565,7 @@ function analyzeAnswer(rawAnswer, questionIndex) {
   if (questionIndex === 3) {
     signals.exposure += exposure * 7;
     signals.contradiction += contradiction * 5;
-    if (text.includes("どちらでもない") || text.includes("二択")) {
+    if (text.includes("どちらでもない") || text.includes("二択") || /neither|false choice|binary/i.test(text)) {
       signals.control += 10;
     }
   }
@@ -579,7 +662,7 @@ function hashText(text, seed = 2166136261) {
 function createCounterRecord(rawAnswer, target, record) {
   const text = rawAnswer.normalize("NFKC").replace(/\s+/g, " ").trim();
   const compactLength = text.replace(/\s/g, "").length;
-  const firstPerson = countTerms(text, ["私", "俺", "僕", "自分", "わたし", "わたくし"]);
+  const firstPerson = countTerms(text, ["私", "俺", "僕", "自分", "わたし", "わたくし", "i", "me", "my", "myself"]);
   const responsibility = countTerms(text, [
     "責任",
     "引き受け",
@@ -589,7 +672,16 @@ function createCounterRecord(rawAnswer, target, record) {
     "決めた",
     "私が",
     "俺が",
-    "自分が"
+    "自分が",
+    "responsibility",
+    "responsible",
+    "accountable",
+    "accept",
+    "own",
+    "choose",
+    "chose",
+    "decide",
+    "decided"
   ]);
   const premise = countTerms(text, [
     "前提",
@@ -599,9 +691,17 @@ function createCounterRecord(rawAnswer, target, record) {
     "解釈",
     "文脈",
     "意味",
-    "成り立"
+    "成り立",
+    "premise",
+    "standard",
+    "basis",
+    "definition",
+    "interpretation",
+    "context",
+    "meaning",
+    "assumption"
   ]);
-  const conditional = countTerms(text, ["もし", "なら", "場合", "次第", "限り", "によって", "ときだけ"]);
+  const conditional = countTerms(text, ["もし", "なら", "場合", "次第", "限り", "によって", "ときだけ", "if", "unless", "when", "depending", "provided", "only if"]);
   const external = countTerms(text, [
     "相手",
     "他人",
@@ -611,7 +711,15 @@ function createCounterRecord(rawAnswer, target, record) {
     "観測者",
     "観測側",
     "判定",
-    "そちら"
+    "そちら",
+    "other",
+    "others",
+    "society",
+    "situation",
+    "question",
+    "observer",
+    "judgment",
+    "you"
   ]);
   const reframing = countTerms(text, [
     "ではなく",
@@ -620,9 +728,15 @@ function createCounterRecord(rawAnswer, target, record) {
     "言い換",
     "区別",
     "二択",
-    "別の意味"
+    "別の意味",
+    "rather than",
+    "instead",
+    "reframe",
+    "distinguish",
+    "binary",
+    "another meaning"
   ]);
-  const concession = countTerms(text, ["確かに", "一部", "認め", "その点", "当たって", "否定しない"]);
+  const concession = countTerms(text, ["確かに", "一部", "認め", "その点", "当たって", "否定しない", "certainly", "partly", "part", "admit", "agree", "not deny"]);
   const denial = countTerms(text, [
     "違う",
     "誤り",
@@ -630,10 +744,17 @@ function createCounterRecord(rawAnswer, target, record) {
     "間違",
     "当たっていない",
     "そうではない",
-    "否定"
+    "否定",
+    "different",
+    "wrong",
+    "error",
+    "mistaken",
+    "incorrect",
+    "not true",
+    "deny"
   ]);
-  const causal = countTerms(text, ["なぜなら", "だから", "ため", "理由", "ゆえ", "ので"]);
-  const contrast = countTerms(text, ["でも", "しかし", "けれど", "ただし", "一方", "それでも"]);
+  const causal = countTerms(text, ["なぜなら", "だから", "ため", "理由", "ゆえ", "ので", "because", "therefore", "reason", "since", "so that"]);
+  const contrast = countTerms(text, ["でも", "しかし", "けれど", "ただし", "一方", "それでも", "but", "however", "although", "yet", "nevertheless"]);
   const seed = hashText(`${target}|${text}`, record.seed);
   const structuralEvidence =
     firstPerson +
@@ -786,7 +907,8 @@ function writeStoredHistory(history) {
 
 function formatRecordDate(timestamp) {
   try {
-    return new Intl.DateTimeFormat("ja-JP", {
+    const locale = window.GireivelI18n?.language === "en" ? "en-US" : "ja-JP";
+    return new Intl.DateTimeFormat(locale, {
       year: "numeric",
       month: "2-digit",
       day: "2-digit"
@@ -1142,7 +1264,8 @@ function requestBurnRecord() {
     return;
   }
 
-  if (window.confirm("この端末の観測記録を削除しますか。")) {
+  const prompt = window.GireivelI18n?.translate("この端末の観測記録を削除しますか。") || "この端末の観測記録を削除しますか。";
+  if (window.confirm(prompt)) {
     burnStoredRecord();
   }
 }
@@ -1238,6 +1361,7 @@ elements.burnDialog?.addEventListener("close", () => {
 });
 
 renderPriorRecord();
+window.addEventListener("gireivel:languagechange", renderPriorRecord);
 window.requestAnimationFrame(() => {
   document.body.classList.remove("is-loading");
   document.querySelector('[data-view="threshold"]')?.classList.add("is-active");
