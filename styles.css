@@ -170,7 +170,7 @@ body.is-ready .hero {
 
 .room-doors {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: clamp(14px, 2.5vw, 28px);
   width: min(980px, 100%);
   margin-top: clamp(46px, 8vh, 78px);
@@ -180,7 +180,7 @@ body.is-ready .hero {
   position: relative;
   display: grid;
   min-height: 132px;
-  padding: 22px 24px 20px;
+  padding: 22px 16px 20px;
   border: 1px solid var(--line);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent),
@@ -367,6 +367,10 @@ body.is-map-open .manor-map {
   color: var(--text);
   outline: none;
   padding-left: 8px;
+}
+
+body.is-ready .room-door:nth-child(5) {
+  transition-delay: 320ms;
 }
 
 .manor-scar {

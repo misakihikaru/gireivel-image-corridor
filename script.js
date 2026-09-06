@@ -26,6 +26,13 @@ const rooms = [
     title: "OBSERVATION CHAMBER",
     jp: "Reciprocal Observation",
     href: "./observation-chamber/"
+  },
+  {
+    id: "heresy-collection",
+    number: "05",
+    title: "HERESY COLLECTION",
+    jp: "The First Verdict",
+    href: "./heresy-collection/"
   }
 ];
 
