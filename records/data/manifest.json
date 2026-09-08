@@ -1,5 +1,17 @@
 {
   "version": 1,
-  "total": 0,
-  "months": []
+  "total": 1,
+  "months": [
+    {
+      "month": "2026-09",
+      "path": "data/2026-09-d7f7dc12e65c22b4.json",
+      "count": 1,
+      "personas": {
+        "vel": 1
+      },
+      "media": {
+        "text": 1
+      }
+    }
+  ]
 }
