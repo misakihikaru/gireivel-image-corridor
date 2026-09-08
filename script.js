@@ -33,6 +33,13 @@ const rooms = [
     title: "HERESY COLLECTION",
     jp: "The First Verdict",
     href: "./heresy-collection/"
+  },
+  {
+    id: "traces",
+    number: "06",
+    title: "TRACES",
+    jp: "痕跡録",
+    href: "./records/"
   }
 ];
 
