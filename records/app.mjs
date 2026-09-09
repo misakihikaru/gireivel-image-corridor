@@ -37,7 +37,7 @@ async function loadMore(token=generation){
   }catch{if(token===generation){status.textContent='記録を読み込めませんでした。もう一度お試しください。';$('#retry').hidden=false;}}
   finally{if(token===generation){loading=false;more.disabled=false;entries.removeAttribute('aria-busy');}}
 }
-function populate(q){for(const key of ['q','persona','from','to','order'])form.elements.namedItem(key).value=q[key];form.elements.namedItem('medium').value=q.medium;}
+function populate(q){for(const key of ['q','persona','from','to','order'])form.elements.namedItem(key).value=q[key];form.elements.namedItem('medium').value=q.medium;if(q.q||q.persona||q.from||q.to)$('#refine').open=true;}
 async function search(params,update=true){
   generation++;loading=false;const token=generation;query=cleanQuery(params);populate(query);visible.clear();entries.replaceChildren();$('#empty').hidden=true;more.hidden=true;$('#retry').hidden=true;cursor=0;pending=[];
   if(update){const u=new URL(location.href);u.search='';for(const [k,v]of Object.entries(query))if(v&&!(k==='order'&&v==='newest'))u.searchParams.set(k,v);history.pushState(null,'',u);}

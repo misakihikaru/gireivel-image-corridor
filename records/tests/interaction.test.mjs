@@ -34,3 +34,15 @@ test('deep link outside first page opens correct work and backwards date range e
 test('failed shard can be retried without dropping records',async t=>{
   const f=await setup(t,'',true);assert.equal(f.d.querySelector('#retry').hidden,false);f.recover();f.d.querySelector('#retry').click();await settle(f.w);assert.equal(f.d.querySelectorAll('#entries article').length,24);
 });
+
+test('all four people remain selectable and linked filters are revealed',async t=>{
+  const f=await setup(t,'?persona=vel');const form=f.d.querySelector('#filters');
+  assert.deepEqual([...form.elements.persona.options].map(o=>o.value),['','chronoa','vel','rezel','lacrevex']);
+  assert.equal(f.d.querySelector('#refine').open,true);
+  assert.equal(form.elements.persona.value,'vel');
+  form.elements.persona.value='chronoa';form.elements.persona.dispatchEvent(new f.w.Event('change',{bubbles:true}));await settle(f.w);
+  assert.equal(new URLSearchParams(f.w.location.search).get('persona'),'chronoa');
+  assert.equal(f.d.querySelector('#empty').hidden,false);
+  form.reset();await new Promise(resolve=>setTimeout(resolve,10));await settle(f.w);
+  assert.equal(form.elements.persona.value,'');assert.equal(f.d.querySelectorAll('#entries article').length,24);
+});
