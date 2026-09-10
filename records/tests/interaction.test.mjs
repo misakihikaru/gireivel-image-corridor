@@ -8,7 +8,7 @@ const manifest={version:1,total:1000,months:[{month:'2026-09',path:shardPath,cou
 const tick=()=>new Promise(resolve=>setImmediate(resolve));
 async function settle(w){for(let i=0;i<100;i++){await tick();if(!w.document.querySelector('#entries').hasAttribute('aria-busy'))return;}throw Error('UI did not settle');}
 async function setup(t,search='',fail=false){
-  const dom=new JSDOM(html,{url:'https://example.test/records/'+search}),w=dom.window;t.after(()=>w.close());
+  const dom=new JSDOM(html,{url:'https://example.test/records/'+search,runScripts:'outside-only'}),w=dom.window;t.after(()=>w.close());
   w.HTMLDialogElement.prototype.showModal=function(){this.open=true;};w.HTMLDialogElement.prototype.close=function(){this.open=false;};
   for(const key of ['window','document','location','history','FormData'])globalThis[key]=key==='window'?w:w[key];
   let failing=fail;const calls=[];globalThis.fetch=async path=>{calls.push(path);if(failing&&path===shardPath)throw Error('network');return{ok:true,json:async()=>path==='data/manifest.json'?manifest:{records:[...records]}};};
@@ -45,4 +45,19 @@ test('all four people remain selectable and linked filters are revealed',async t
   assert.equal(f.d.querySelector('#empty').hidden,false);
   form.reset();await new Promise(resolve=>setTimeout(resolve,10));await settle(f.w);
   assert.equal(form.elements.persona.value,'');assert.equal(f.d.querySelectorAll('#entries article').length,24);
+});
+
+
+test('English source and Japanese translation coexist, search and survive language switches',async t=>{
+  const original={...records[999]};Object.assign(records[999],{sourceLanguage:'en',text:'The empty chair remains.',textJa:'空席の痕跡 <script>bad()</script>',publicNote:'A place without a sitter.',publicNoteJa:'座る者のいない場所。'});
+  t.after(()=>{for(const key of Object.keys(records[999]))delete records[999][key];Object.assign(records[999],original);});
+  const f=await setup(t,'?q='+encodeURIComponent('空席の痕跡'));
+  assert.equal(f.d.querySelectorAll('#entries article').length,1);
+  const source=f.d.querySelector('.entry-text'),translation=f.d.querySelector('.entry-translation p');
+  assert.equal(source.lang,'en');assert.equal(source.textContent,records[999].text);assert.equal(translation.textContent,records[999].textJa);assert.equal(f.d.querySelector('.entry-translation script'),null);
+  f.w.matchMedia=()=>({matches:true});f.w.eval(readFileSync(new URL('../../i18n.js',import.meta.url),'utf8'));
+  for(const lang of ['en','ja']){f.w.GireivelI18n.setLanguage(lang);assert.equal(source.textContent,records[999].text);assert.equal(translation.textContent,records[999].textJa);}
+  f.d.querySelector('.entry-links a').focus();f.d.querySelector('.entry-links a').click();
+  assert.equal(f.d.querySelector('#record-content .entry-translation p').textContent,records[999].textJa);
+  f.d.querySelector('dialog').dispatchEvent(new f.w.Event('cancel',{cancelable:true}));assert.equal(f.d.querySelector('dialog').open,false);assert.equal(f.d.activeElement,f.d.querySelector('.entry-links a'));
 });

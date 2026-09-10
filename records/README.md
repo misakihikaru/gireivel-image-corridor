@@ -18,7 +18,7 @@ Xに公開済みのギレイヴェル作品を辿る、静的な記録室。公�
 
 `data/manifest.json` が月別ファイルを指す。月別ファイル・画像は内容ハッシュ付きで追記し、最後にmanifestを切り替える。CDNのキャッシュが更新途中でも旧manifestから旧データを参照できる。
 
-公開フィールドは `id, publishedAt, persona, medium, text, publicNote, alt, image, generatedByAI` のみ。`publishedAt` はXの投稿IDが持つ実際の公開時刻。制作開始時刻や試作日ではない。
+公開フィールドは `id, publishedAt, persona, medium, text, publicNote, alt, image, generatedByAI` と、新規作品の `sourceLanguage, textJa, publicNoteJa, altJa` のみ。`publishedAt` はXの投稿IDが持つ実際の公開時刻。制作開始時刻や試作日ではない。
 
 非公開の `note, question, imagePrompt` とDB、認証情報は公開しない。過去の記録に `publicNote` がない場合は空欄とし、非公開メモから補完しない。
 
@@ -31,3 +31,7 @@ node --test records/tests/interaction.test.mjs
 ```
 
 DOM試験は1000件の固定データで実施する。試験データを公開データへ追加しない。
+
+## 英語原文と日本語訳
+
+新規制作は英語原文をXへ送り、サイトでは保存されたtextJa・publicNoteJaを原文の下に併記する。sourceLanguageはen。altJaも公開用翻訳として保存する。翻訳は全体のJP / EN切り替えで置換せず、両言語で常に表示する。日本語訳も検索対象。旧記録の原文を変更したり、日本語の旧記録を英語と表示したりしない。
