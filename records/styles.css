@@ -201,3 +201,13 @@ body:has(dialog[open]) { overflow: hidden; }
 .intention > p { margin: 0 0 20px; }
 .intention .entry-translation { margin-top: 0; }
 @media (max-width: 600px) { .entry-translation { font-size: 13px; } }
+
+/* Withheld entries belong to the archive without competing with works. */
+.entry-hold .entry-text { font-size: 16px; color: #b8afa2; }
+.entry-hold .entry-body { border-left-style: dashed; }
+.entry-hold .entry-meta::before { background: #665a4e; }
+.hold-fact { font: 14px/2 Georgia, serif; color: var(--muted); margin: 0 0 5px; }
+.hold-fact-ja { font: 12px/2 var(--serif); color: var(--muted); margin: 0 0 20px; }
+.medium { gap: 22px; flex-wrap: wrap; max-width: 58%; }
+@media(max-width:760px){.medium { max-width:100%;gap:17px; }.refine summary { position:static; border-top:1px solid var(--line); padding:15px 0; }}
+@media(max-width:600px){.entry-hold .entry-text { font-size:15px; }.medium { gap:14px; }.medium span { font-size:11px;letter-spacing:.04em; }}

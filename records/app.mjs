@@ -1,23 +1,24 @@
-import {names,cleanQuery,matches,selectMonths,validRecord,monthOfPost} from './core.mjs?v=english-1';
+import {names,cleanQuery,matches,selectMonths,validRecord,monthOfPost} from './core.mjs?v=holds-1';
 const $=selector=>document.querySelector(selector), form=$('#filters'), entries=$('#entries'), status=$('#status'), more=$('#more'), dialog=$('#record-dialog');
 const cache=new Map(), visible=new Map();let manifest,query,cursor=0,months=[],pending=[],generation=0,loading=false,lastFocus;
 const element=(tag,cls,text)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e;};
 const stamp=iso=>new Intl.DateTimeFormat('ja-JP',{timeZone:'Asia/Tokyo',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(iso)).replaceAll('/','.');
 function entryURL(id){const u=new URL(location.href);u.searchParams.set('entry',id);return u;}
 function card(record,detail=false){
-  const article=element('article','entry');article.id=`record-${record.id}`;
-  const meta=element('div','entry-meta'),time=element('time','',stamp(record.publishedAt));time.dateTime=record.publishedAt;
-  meta.append(time,element('div','entry-persona',names[record.persona]),element('div','entry-kind',record.medium==='image'?'画像':'文章'));
+  const article=element('article','entry');article.id=`record-${record.id}`;if(record.medium==='hold')article.classList.add('entry-hold');
+  const meta=element('div','entry-meta'),time=element('time','',stamp(record.recordedAt??record.publishedAt));time.dateTime=record.recordedAt??record.publishedAt;
+  meta.append(time,element('div','entry-persona',names[record.persona]),element('div','entry-kind',record.medium==='hold'?'見送り':record.medium==='image'?'画像':'文章'));
   const body=element('div','entry-body');
   if(record.image){const picture=element(detail?'div':'a','entry-image');if(!detail){picture.href=entryURL(record.id);picture.setAttribute('aria-label','画像と記録を大きく開く');picture.onclick=e=>{e.preventDefault();openRecord(record);};}const img=element('img');img.src=record.image;img.alt=record.alt;img.loading=detail?'eager':'lazy';img.decoding='async';picture.append(img);body.append(picture);}
   const source=(tag,cls,text,lang)=>{const node=element(tag,cls,text);node.setAttribute('data-i18n-ignore','');if(lang)node.lang=lang;return node;};
   const translation=(text)=>{const block=source('div','entry-translation','', 'ja');block.append(element('small','','日本語訳 / Japanese translation'),element('p','',text));return block;};
   if(record.text)body.append(source('p',`entry-text${record.medium==='image'?' image-caption':''}`,record.text,record.sourceLanguage));
   if(record.textJa)body.append(translation(record.textJa));
+  if(record.medium==='hold'&&!record.text){body.append(source('p','hold-fact','No words were added.','en'),source('p','hold-fact-ja','公開する言葉は添えられていません。','ja'));}
   if(record.publicNote){const note=element('div','intention');note.append(element('small','',record.medium==='image'?'画に添えて':'記録に添えて'),source('p','',record.publicNote,record.sourceLanguage));if(record.publicNoteJa)note.append(translation(record.publicNoteJa));body.append(note);}
   const links=element('div','entry-links'),local=element('a','','この記録を開く'),x=element('a','','Xで見る ↗');
   local.href=entryURL(record.id);local.onclick=e=>{e.preventDefault();openRecord(record);};x.href=`https://x.com/gireivelaest/status/${record.id}`;x.target='_blank';x.rel='noopener noreferrer';
-  if(!detail)links.append(local);else{const permalink=element('a','','この記録へのリンク');permalink.href=entryURL(record.id);links.append(permalink);}links.append(x);body.append(links);article.append(meta,body);return article;
+  if(!detail)links.append(local);else{const permalink=element('a','','この記録へのリンク');permalink.href=entryURL(record.id);links.append(permalink);}if(record.medium!=='hold')links.append(x);body.append(links);article.append(meta,body);return article;
 }
 function openRecord(record,update=true){lastFocus=document.activeElement;$('#record-content').replaceChildren(card(record,true));$('#record-title').textContent=`${names[record.persona]}の記録`;if(update)history.pushState(null,'',entryURL(record.id));if(!dialog.open)dialog.showModal();$('#close-dialog').focus();}
 function closeRecord(){dialog.close();const u=new URL(location.href);u.searchParams.delete('entry');history.replaceState(null,'',u);lastFocus?.focus();}
@@ -32,7 +33,7 @@ async function loadMore(token=generation){
   try{let appended=0;
     while(appended<24){
       if(token!==generation)return;
-      if(!pending.length){if(cursor>=months.length)break;const records=await shard(months[cursor]);if(token!==generation)return;cursor++;pending=records.filter(r=>matches(r,query)).sort((a,b)=>query.order==='oldest'?a.publishedAt.localeCompare(b.publishedAt):b.publishedAt.localeCompare(a.publishedAt));}
+      if(!pending.length){if(cursor>=months.length)break;const records=await shard(months[cursor]);if(token!==generation)return;cursor++;pending=records.filter(r=>matches(r,query)).sort((a,b)=>query.order==='oldest'?(a.recordedAt??a.publishedAt).localeCompare(b.recordedAt??b.publishedAt):(b.recordedAt??b.publishedAt).localeCompare(a.recordedAt??a.publishedAt));}
       while(pending.length&&appended<24){const r=pending.shift();if(visible.has(r.id))continue;visible.set(r.id,r);entries.append(card(r));appended++;}
     }
     if(token!==generation)return;

@@ -61,3 +61,14 @@ test('English source and Japanese translation coexist, search and survive langua
   assert.equal(f.d.querySelector('#record-content .entry-translation p').textContent,records[999].textJa);
   f.d.querySelector('dialog').dispatchEvent(new f.w.Event('cancel',{cancelable:true}));assert.equal(f.d.querySelector('dialog').open,false);assert.equal(f.d.activeElement,f.d.querySelector('.entry-links a'));
 });
+
+
+test('withheld entries are distinct, filterable, shareable and never link to X',async t=>{
+ const previous={...records[999]},previousMedia={...manifest.months[0].media};
+ Object.assign(records[999],{id:'hold-'+Date.parse('2026-09-08T11:00:00Z'),recordedAt:'2026-09-08T11:00:00Z',medium:'hold',text:'Not yet.',textJa:'まだ置かない。',sourceLanguage:'en',publicNote:'',alt:'',image:null});manifest.months[0].media.hold=1;
+ t.after(()=>{for(const key of Object.keys(records[999]))delete records[999][key];Object.assign(records[999],previous);manifest.months[0].media=previousMedia;});
+ const f=await setup(t,'?medium=hold');assert.equal(f.d.querySelectorAll('#entries article').length,1);assert.equal(f.d.querySelector('.entry-kind').textContent,'見送り');assert.equal(f.d.querySelector('a[href*="x.com/gireivelaest/status/"]'),null);
+ f.d.querySelector('.entry-links a').click();assert.equal(f.d.querySelector('dialog').open,true);assert.ok(f.w.location.search.includes('entry=hold-'));f.d.querySelector('#close-dialog').click();
+ const form=f.d.querySelector('#filters');form.elements.medium.value='works';form.dispatchEvent(new f.w.Event('submit',{cancelable:true}));await settle(f.w);assert.equal(f.d.querySelectorAll('#entries .entry-hold').length,0);
+ const deep=await setup(t,'?medium=image&entry='+records[999].id);assert.equal(deep.d.querySelector('dialog').open,true);assert.equal(deep.d.querySelector('#record-content .entry-kind').textContent,'見送り');
+});

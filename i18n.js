@@ -3,6 +3,11 @@
   const supportedLanguages = new Set(["ja", "en"]);
 
   const pairs = [
+    ['見送り', 'Withheld'],
+    ['作品のみ', 'Works only'],
+    ['記録日 · はじめ', 'Record date · from'],
+    ['記録日 · おわり', 'Record date · to'],
+    ['ここには、公開された作品と見送りの記録が残ります。', 'Published works and records of withholding remain here.'],
     // Shared navigation and labels
     ["館", "MANOR"],
     ["館内図", "MANOR MAP"],
