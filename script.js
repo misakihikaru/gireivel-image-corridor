@@ -1,47 +1,4 @@
-const rooms = [
-  {
-    id: "image-corridor",
-    number: "01",
-    title: "IMAGE CORRIDOR",
-    jp: "Observation Corridor",
-    href: "./image-corridor/"
-  },
-  {
-    id: "resonance-hall",
-    number: "02",
-    title: "ECHO RELIQUARY",
-    jp: "Residual Archive",
-    href: "./sound/"
-  },
-  {
-    id: "gireivel-gallery",
-    number: "03",
-    title: "CONCEPT INCARNATE",
-    jp: "Embodied Archive",
-    href: "./gallery/"
-  },
-  {
-    id: "observation-chamber",
-    number: "04",
-    title: "OBSERVATION CHAMBER",
-    jp: "Reciprocal Observation",
-    href: "./observation-chamber/"
-  },
-  {
-    id: "heresy-collection",
-    number: "05",
-    title: "HERESY COLLECTION",
-    jp: "The First Verdict",
-    href: "./heresy-collection/"
-  },
-  {
-    id: "traces",
-    number: "06",
-    title: "TRACES",
-    jp: "痕跡録",
-    href: "./records/"
-  }
-];
+const rooms = window.GireivelRooms;
 
 const OBSERVATION_STORAGE_KEY = "gireivel.observation.v1";
 
@@ -129,6 +86,8 @@ function openMap() {
   document.body.classList.add("is-map-open");
   mapToggle?.setAttribute("aria-expanded", "true");
   manorMap?.setAttribute("aria-hidden", "false");
+  manorMap.inert = false;
+  document.querySelector('.hero').inert = true;
   mapClose?.focus();
 }
 
@@ -138,6 +97,8 @@ function closeMap() {
   document.body.classList.remove("is-map-open");
   mapToggle?.setAttribute("aria-expanded", "false");
   manorMap?.setAttribute("aria-hidden", "true");
+  manorMap.inert = true;
+  document.querySelector('.hero').inert = false;
   closeScarQuestion();
   lastFocusedElement?.focus();
 }
@@ -160,6 +121,7 @@ function handlePointerMove(event) {
   });
 }
 
+manorMap.inert = true;
 renderRooms();
 renderObservationScar();
 
@@ -179,4 +141,10 @@ window.addEventListener("storage", (event) => {
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") closeMap();
+  if (event.key === 'Tab' && document.body.classList.contains('is-map-open')) {
+    const items = [...manorMap.querySelectorAll('button, a[href]')].filter(el => el.getClientRects().length);
+    const first = items[0], last = items[items.length - 1];
+    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+  }
 });

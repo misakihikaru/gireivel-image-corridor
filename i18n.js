@@ -3,11 +3,114 @@
   const supportedLanguages = new Set(["ja", "en"]);
 
   const pairs = [
+    // Heresy Collection reading guidance: translate complete messages only.
+    ['貴方の正しさは、誰の負担になるのか。', 'Who bears the cost of what you believe is right?'],
+    ['この短編遊戯では、架空の街で判断を下し、その結果を受け取る人の立場から読み直します。何を守り、そのために誰へ何を負わせたのか。ご自身の選択を通して、それを確かめてください。', 'In this short narrative, you make decisions for a fictional city, then reconsider them from the position of those who live with the consequences. What did you protect, and what did protecting it ask of others? Explore this through your own choices.'],
+    ['考えを変えても、変えなくても構いません。初めの判断と、別の立場を見た後の判断。その両方を、持ち帰ることができます。', 'You may change your mind, or keep your judgment. You can take both with you: your first decision and the one you reach after seeing another position.'],
+    ['四つの部屋で確かめること', 'What to examine in the four rooms'],
+    ['何を守るかを選び、その選択で生まれる負担を見る。', 'Choose what to protect, and see the burdens your choice creates.'],
+    ['判決を受け取る側へ席を移し、同じ理由を引き受けられるか考える。', 'Take the seat of someone receiving the verdict, and consider whether you can accept the same reasons.'],
+    ['判断を支える前提を外し、なお言えることと、足りない理由を確かめる。', 'Remove a premise behind the judgment. Examine what still follows, and what needs further reasons.'],
+    ['初めの言葉と今の言葉を並べ、残しておきたい変化や迷いを記す。', 'Set your first words beside your present ones. Record the changes or uncertainties you wish to keep.'],
+    ['「選んだ理由だけでなく、その理由で困る者の席も、ご用意してあります。」', '“We have also reserved a seat for the person inconvenienced by your reasons.”'],
+    ['何を守るための裁定か。その結果、誰が何を引き受けることになるかを見てください。', 'What is this verdict meant to protect? Consider who will bear its consequences, and what they will have to bear.'],
+    ['選んだ理由と、街に残った結果を並べてください。次は、その結果を受け取る席から読み直します。', 'Set your reasons beside what happened to the city. Next, read them from the seat of someone living with the result.'],
+    ['席が変わっても、初めの裁定は同じです。受け取る側に立ったとき、理由の見え方が変わるか確かめてください。', 'The seat has changed; your first verdict has not. See whether its reasons look different from the receiving side.'],
+    ['ご自身の判断にも、この机の論証にも、採用できない前提があれば異議を。何が足りないかを言葉にしてください。', 'Question any premise you cannot accept, whether in your own judgment or in this desk’s argument. Put what is missing into words.'],
+    ['変わった考えにも、変わらなかった理由にも、残す意味があります。初めの言葉と並べて、持ち帰るものを選んでください。', 'A changed view and a reason for standing by it are both worth recording. Set them beside your first words and choose what to take with you.'],
+    // Shared interface for the newer rooms. Published words remain source records.
+    ['館へ戻る', 'RETURN'],
+    ['痕跡録', 'TRACES'],
+    ['異端蒐集館', 'HERESY COLLECTION'],
+    ['残されたもの', 'What Remains'],
+    ['過去に残したものから、', 'From what was left behind,'],
+    ['次に残すものへ。', 'to what will remain next.'],
+    ['記録へ', 'Skip to records'],
     ['見送り', 'Withheld'],
     ['作品のみ', 'Works only'],
     ['記録日 · はじめ', 'Record date · from'],
     ['記録日 · おわり', 'Record date · to'],
     ['ここには、公開された作品と見送りの記録が残ります。', 'Published works and records of withholding remain here.'],
+    ['記録を読み込んでいます', 'Loading records'],
+    ['読み込み中', 'Loading'],
+    ['記録の形式', 'Record type'],
+    ['すべて', 'All'],
+    ['文章', 'Words'],
+    ['画像', 'Images'],
+    ['言葉・名前・日付で絞り込む', 'Refine by words, name, or date'],
+    ['言葉を探す', 'Search words'],
+    ['本文・画の意図から', 'Words or image intent'],
+    ['残した者', 'Recorded by'],
+    ['四人すべて', 'All four'],
+    ['クロノア', 'Chronoa'],
+    ['ヴェル', 'Vel'],
+    ['レゼル', 'Rezel'],
+    ['ラクレヴェクス', 'Lacrevex'],
+    ['投稿日 · はじめ', 'Published from'],
+    ['投稿日 · おわり', 'Published until'],
+    ['日時は日本時間（JST）', 'Dates use Japan Standard Time (JST)'],
+    ['解除', 'Clear'],
+    ['記録を辿る', 'Trace the records'],
+    ['表示順', 'Order'],
+    ['新しい記録から', 'Newest first'],
+    ['古い記録から', 'Oldest first'],
+    ['該当する痕跡は、まだありません。', 'No matching traces yet.'],
+    ['条件を変えて、もう一度辿ってください。', 'Change the filters and trace again.'],
+    ['次の記録を読む', 'Read the next records'],
+    ['読み込みを再試行', 'Retry loading'],
+    ['記録を辿っています…', 'Tracing the records…'],
+    ['記録を読み込めませんでした。もう一度お試しください。', 'Records could not be loaded. Please try again.'],
+    ['記録を読み込めませんでした。', 'Records could not be loaded.'],
+    ['はじめの日付を、おわりの日付以前にしてください。', 'The start date must be on or before the end date.'],
+    ['指定された記録は見つかりませんでした。', 'The requested record was not found.'],
+    ['ひとつの痕跡', 'A Single Trace'],
+    ['記録を閉じる', 'Close record'],
+    ['閉じる ×', 'Close ×'],
+    ['この記録を開く', 'Open this record'],
+    ['この記録へのリンク', 'Link to this record'],
+    ['Xで見る ↗', 'View on X ↗'],
+    ['Xに残したもの ↗', 'Traces on X ↗'],
+    ['館へ戻る ↗', 'RETURN ↗'],
+    ['画に添えて', 'Alongside the image'],
+    ['記録に添えて', 'Alongside the record'],
+    ['言葉と像はAIによる制作です。', 'The words and images are AI-generated.'],
+    ['ここには、公開された作品だけが残ります。', 'Only published works remain here.'],
+    ['公開された記録', 'Published records'],
+    ['痕跡録を絞り込む', 'Filter traces'],
+    ['画像と記録を大きく開く', 'Expand image and record'],
+    ['幸福な街で、不幸になる自由を求めた住人。', 'A resident of a happy city asks for the freedom to be unhappy.'],
+    ['全員が幸福であることを約束された街に、', 'In a city that promises happiness to everyone,'],
+    ['一通の退出願いが届きました。', 'a request to leave has arrived.'],
+    ['貴方には、この街を裁定していただきます。', 'You are asked to adjudicate this city.'],
+    ['「立派な規則ですね。例外が来るまでは。」', '“An admirable rule. Until the exception arrives.”'],
+    ['言葉を預ける', 'Deposit your words'],
+    ['一巡 約10分 ／ 三つの結末 ／ 途中から再開できます', 'About 10 minutes / Three endings / Resume available'],
+    ['例外の所在', 'The Place of the Exception'],
+    ['ADMISSION / 持ち込む言葉', 'ADMISSION / WORDS BROUGHT WITH YOU'],
+    ['貴方が、ひとまず正しいと思うこと。', 'Something you presently believe to be right.'],
+    ['例：誰も傷つけたくない。', 'For example: I do not want to hurt anyone.'],
+    ['約束', 'Promise'],
+    ['善意', 'Goodwill'],
+    ['自由', 'Freedom'],
+    ['この言葉で入館する', 'Enter with these words'],
+    ['言葉と選択は、このブラウザにだけ残ります。文章の自動診断は行いません。', 'Words and choices remain only in this browser. Your writing is not automatically assessed.'],
+    ['一巡を閉じる', 'End this passage'],
+    ['記録について', 'About records'],
+    ['入口', 'ENTRANCE'],
+    ['幸福都市', 'THE HAPPY CITY'],
+    ['反転劇場', 'THE REVERSAL THEATRE'],
+    ['解体机', 'THE DISSECTION DESK'],
+    ['変容書庫', 'THE ARCHIVE OF TRANSFORMATION'],
+    ['これまでの裁定', 'Previous verdicts'],
+    ['まだ裁定はありません。', 'No verdicts yet.'],
+    ['この裁定を記す', 'Record this verdict'],
+    ['次の照会を開く', 'Open the next inquiry'],
+    ['街の結末を見る', 'Witness the city’s ending'],
+    ['次の席へ移る', 'Move to the next seat'],
+    ['← 前の席へ', '← Previous seat'],
+    ['反転劇場へ進む', 'Enter the Reversal Theatre'],
+    ['変容書庫へ進む', 'Enter the Archive of Transformation'],
+    ['この判断を解体机へ', 'Bring this judgment to the Dissection Desk'],
     // Shared navigation and labels
     ["館", "MANOR"],
     ["館内図", "MANOR MAP"],
@@ -479,7 +582,9 @@
   const nodeRecords = new WeakMap();
   const attributeRecords = new WeakMap();
   const translatableAttributes = ["aria-label", "alt", "title", "placeholder", "content"];
-  const ignoredElements = new Set(["SCRIPT", "STYLE", "TEXTAREA", "INPUT", "CODE"]);
+  const ignoredElements = new Set(["SCRIPT", "STYLE", "TEXTAREA", "INPUT", "CODE", "TITLE"]);
+  const originalText = '[data-i18n-ignore], .entry-text, .deposited, .user-text, .record-transcript, .record-principle';
+  const signage = 'h1[data-i18n-ignore], .section-label, .eyebrow, .site-mark, .brand, .room-title, .room-jp, .door-name, .map-title, .chamber-nav, .header-nav, .site-credit';
 
   function readStoredLanguage() {
     try {
@@ -494,6 +599,12 @@
   let currentLanguage = readStoredLanguage();
 
   function patternTranslation(source, language) {
+    let recordMatch = source.match(/^(\d+)件を表示( · 続く記録があります)?$/);
+    if (recordMatch) return language === 'en' ? `${recordMatch[1]} records shown${recordMatch[2] ? ' · More records remain' : ''}` : source;
+    recordMatch = source.match(/^(\d+ RECORDS?) \/ 継続する記録$/);
+    if (recordMatch) return language === 'en' ? `${recordMatch[1]} / CONTINUING` : source;
+    recordMatch = source.match(/^(.+)の記録$/);
+    if (recordMatch) return language === 'en' ? `${translate(recordMatch[1], 'en')} / Record` : source;
     let match = source.match(/^Observation (\d{2}) を拡大する$/);
     if (match) return language === "ja" ? `観測 ${match[1]} を拡大する` : `Expand Observation ${match[1]}`;
 
@@ -554,7 +665,7 @@
 
   function translateTextNode(node) {
     if (!node.parentElement || ignoredElements.has(node.parentElement.tagName)) return;
-    if (node.parentElement.closest("[data-i18n-ignore]")) return;
+    if (node.parentElement.closest(originalText)) return;
 
     const parts = splitWhitespace(node.nodeValue || "");
     if (!parts.core) return;
@@ -565,14 +676,17 @@
       nodeRecords.set(node, record);
     }
 
-    const rendered = translate(record.source);
+    const architectural = node.parentElement.closest(signage);
+    const keepEnglish = architectural && /[A-Za-z]/.test(record.source) && !/[\u3040-\u30ff\u3400-\u9fff]/.test(record.source);
+    const rendered = keepEnglish ? record.source : translate(record.source);
+    if (keepEnglish) architectural.lang = 'en';
     record.rendered = rendered;
     const nextValue = `${record.leading}${rendered}${record.trailing}`;
     if (node.nodeValue !== nextValue) node.nodeValue = nextValue;
   }
 
   function translateAttributes(element) {
-    if (element.closest("[data-i18n-ignore]")) return;
+    if (element.closest(originalText)) return;
     let records = attributeRecords.get(element);
     if (!records) {
       records = new Map();

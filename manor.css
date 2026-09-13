@@ -1,0 +1,100 @@
+:root {
+  --manor-english: Georgia, "Times New Roman", serif;
+  --manor-japanese: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  --manor-ui: system-ui, -apple-system, "Yu Gothic", sans-serif;
+  --manor-ink: #e8e2d8;
+  --manor-muted: #9a9188;
+  --manor-line: rgba(255, 255, 255, .16);
+}
+html body { font-family: var(--manor-japanese); }
+html[lang="en"] body { font-family: var(--manor-english); }
+body :is(.site-mark, .brand, .section-label, .eyebrow, .room-title, .room-jp, .door-name, .map-title, .site-credit, [data-manor-english]) {
+  font-family: var(--manor-english);
+  letter-spacing: 0;
+}
+body :is(.micro, .chamber-status, .entry-meta, .filter-grid, .result-bar, .track-count) { font-family: var(--manor-ui); letter-spacing: 0; }
+body :is(input, textarea, select) { font-family: var(--manor-ui); }
+body :is(.entrance-copy, .observation-copy, .closing-copy, .hero-copy, .story, .intro-text, .entry-text) { letter-spacing: 0; }
+body :is(.section-label, .eyebrow) { font-size: 12px; line-height: 1.6; }
+body .site-credit { font-size: 10px; line-height: 1.6; }
+.manor-home > .site-credit { position: relative; inset: auto; align-self: end; margin: 12px 20px 20px; }
+body [data-manor-english] { overflow-wrap: anywhere; }
+body h1[data-manor-english] { font-size: 64px; line-height: 1.14; font-weight: 400; letter-spacing: 0; }
+body .hero #manor-title { font-size: 96px; }
+body .chamber-title h1[data-manor-english] { font-size: 52px; }
+.manor-tools {
+  position: fixed; top: max(16px, env(safe-area-inset-top)); right: max(20px, env(safe-area-inset-right));
+  z-index: 40; display: flex; align-items: center; gap: 18px; min-height: 40px;
+  padding: 4px 8px; background: rgba(5,5,5,.88); border-bottom: 1px solid var(--manor-line);
+}
+.manor-tools .language-switch { position: relative; inset: auto; box-sizing: border-box; width: 82px; height: 32px; flex-shrink: 0; box-shadow: none; }
+.manor-tools .language-option { width: 38px; min-width: 0; padding: 0; font: 10px/1 var(--manor-english); }
+.manor-tools :is(.map-toggle, .manor-map-button) {
+  position: static; padding: 8px 0; border: 0; background: none; color: var(--manor-ink);
+  font: 11px/1.5 var(--manor-english); letter-spacing: 0; cursor: pointer;
+}
+.manor-tools button:focus-visible { outline: 1px solid var(--manor-ink); outline-offset: 3px; }
+body:has(.manor-tools) > :is(.site-header, .gallery-header, .chamber-header, .masthead) { padding-top: 72px; height: auto; min-height: 118px; }
+body:has(.manor-tools) { --header-height: 130px; }
+.manor-navigation {
+  box-sizing: border-box; position: fixed; inset: 0 0 0 auto; margin: 0;
+  width: min(480px, 100%); max-width: 100%; height: 100dvh; max-height: 100dvh;
+  padding: 36px; background: #090909; color: var(--manor-ink); border: 0; border-left: 1px solid var(--manor-line);
+}
+.manor-navigation::backdrop { background: rgba(0,0,0,.76); }
+.manor-navigation-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; }
+.manor-navigation-top p { font: 14px var(--manor-english); }
+.manor-navigation-close { width: 44px; height: 44px; padding: 0; border: 0; background: none; color: inherit; font: 28px var(--manor-ui); cursor: pointer; }
+.manor-navigation a { display: flex; gap: 20px; padding: 23px 0; border-top: 1px solid var(--manor-line); color: var(--manor-ink); text-decoration: none; font: 15px/1.5 var(--manor-english); }
+.manor-navigation a span:first-child { color: var(--manor-muted); font-size: 12px; }
+.manor-navigation a[aria-current="page"] { border-left: 2px solid #7d1f1f; padding-left: 12px; }
+.manor-navigation a:hover, .manor-navigation a:focus-visible { color: #fff; border-top-color: #7d1f1f; }
+body.manor-map-active { overflow: hidden; }
+.manor-transition { position: fixed; inset: 0; background: #050505; opacity: 0; pointer-events: none; z-index: 2000; transition: opacity 220ms ease; }
+.manor-transition.is-leaving { opacity: 1; }
+body :is(.room-door, .chamber-door, .lineage-card) { transition: border-color 240ms ease, box-shadow 240ms ease, background-color 240ms ease; }
+body :is(.room-door, .chamber-door, .lineage-card):is(:hover, :focus-visible) { box-shadow: inset 0 0 32px rgba(125,31,31,.12); }
+body :is(.room-door, .chamber-door, .lineage-card):active { border-color: #a33e3e; }
+.manor-arrived { animation: manor-arrival 600ms ease both; }
+@keyframes manor-arrival { from { opacity: .35; translate: 0 8px; } to { opacity: 1; translate: 0 0; } }
+html.manor-paused *, html.manor-paused *::before, html.manor-paused *::after { animation-play-state: paused !important; }
+@media (max-width: 700px) {
+  .manor-tools { top: max(10px, env(safe-area-inset-top)); right: max(12px, env(safe-area-inset-right)); gap: 14px; }
+  body h1[data-manor-english] { font-size: 36px; }
+  body .hero #manor-title { font-size: 58px; }
+  body .chamber-title h1[data-manor-english] { font-size: 34px; }
+  body :is(input, textarea, select) { font-size: 16px; }
+  .manor-navigation { padding: 22px; }
+  body .threshold h1[data-manor-english] { max-width: 100%; }
+  body .threshold h1[data-manor-english] span { padding-left: 0; }
+  body .threshold:has(.threshold-copy) { grid-template-columns: minmax(0, 1fr); }
+  body .threshold-copy { min-width: 0; overflow-wrap: anywhere; }
+  body .suggestions { flex-wrap: wrap; }
+  body .journey li { min-width: 0; overflow-wrap: anywhere; }
+  body .masthead > * { min-width: 0; }
+}
+/* Heresy Collection: the purpose of the passage, kept within its reading column. */
+.passage-purpose, #passage-purpose-title { scroll-margin-top: 86px; }
+.passage-purpose { grid-column: 1 / -1; width: 100%; max-width: 750px; margin-top: 35px; padding: 30px 0 0; border-top: 1px solid var(--manor-line); }
+.passage-purpose h2 { margin: 0 0 22px; font-size: clamp(21px, 2.1vw, 28px); line-height: 1.7; font-weight: 400; }
+.passage-purpose > p:not(.eyebrow) { font-size: 16px; line-height: 2.1; margin: 18px 0; }
+.passage-purpose .passage-route { margin: 24px 0; border-top: 1px solid var(--manor-line); }
+.passage-route summary { padding: 16px 0; font-size: 14px; cursor: pointer; }
+.passage-route summary::marker { color: #b47b72; }
+.passage-route ol { list-style: none; margin: 0; padding: 0 0 8px; }
+.passage-route li { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 20px; padding: 12px 0; }
+.passage-route li > span { padding-top: 4px; color: #c49a8c; font: 12px/1.8 var(--manor-english); }
+.passage-route li p { margin: 0; font-size: 16px; line-height: 1.9; }
+.passage-purpose .purpose-coda { border-left: 1px solid #96564e; padding-left: 20px; color: #c6b2a9; }
+.passage-note { margin: 0 0 32px; padding: 0 0 0 18px; border-left: 1px solid #96564e; }
+.passage-note .eyebrow { display: block; margin: 0 0 8px; color: #c49a8c; }
+.passage-note p { margin: 0; font-size: 14px; line-height: 1.9; color: #bdb4ae; }
+@media (max-width: 560px) {
+  .passage-purpose { margin-top: 0; }
+  .passage-route li { grid-template-columns: minmax(0, 1fr); gap: 5px; }
+  .passage-note { padding-left: 14px; margin-bottom: 26px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

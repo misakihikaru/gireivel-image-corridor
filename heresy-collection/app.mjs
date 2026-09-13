@@ -21,7 +21,7 @@ function updateChrome(){
   $('#archive-count').textContent=String(library.length).padStart(2,'0');
   $('#reset-run').hidden=!draft;
   document.body.dataset.room=draft?.stage||'threshold';
-  document.title=draft?`${ROOMS[stageIndex()]} · 異端蒐集館 | GIREIVEL`:'異端蒐集館 | GIREIVEL';
+  document.title='HERESY COLLECTION | GIREIVEL';
 }
 function ledger(){return `<details class="ledger"><summary>これまでの裁定 <span>${draft.choices.length} / 5</span></summary>${draft.choices.length?`<ol>${draft.choices.map((id,i)=>`<li><small>${SCENES[i].title}</small><p>${esc(choiceAt(i,id).rule)}</p></li>`).join('')}</ol>`:'<p>まだ裁定はありません。</p>'}</details>`;}
 function dossier(){return `<div class="dossier"><p class="eyebrow">DEPOSITED WORDS</p><p class="deposited">${esc(draft.principle)}</p><span class="micro">入館時の言葉 / この一文は上書きされません</span></div>`;}
@@ -32,7 +32,17 @@ function cityMap(){
   const points=[{x:80,y:120,label:'居住区',sub:finalCondition||(draft.choices[2]==='veto'?'同意条件あり':'セナ')},{x:230,y:55,label:'時計工房',sub:'イオ'},{x:370,y:120,label:'東門',sub:gate},{x:300,y:285,label:'配給所',sub:draft.choices[1]==='bridge'?'外向けの棚':draft.choices[1]==='sever'?'保障終了条項':'共同の倉'},{x:135,y:285,label:'製パン所',sub:finalCondition||(draft.choices[3]==='exception'?'期限未定':'ネリ')},{x:225,y:180,label:'評議堂',sub:final?.mark==='審査'?'鍵の保管者':'裁定の席'}];
   return `<div class="city-panel"><div class="map-heading"><span>幸福都市 / 配置図</span><span class="gate-status">${gate}</span></div><svg class="city-map" viewBox="0 0 450 355" role="img" aria-label="街の関係図。東門：${gate}。イオ、セナ、ネリを評議堂と配給所が結ぶ。"><g class="map-paths"><path d="M80 120L230 55L370 120L300 285L135 285Z M80 120L225 180L370 120 M230 55L225 180L300 285 M225 180L135 285"/></g>${points.map((p,i)=>`<g class="map-node ${i===2?'gate-node':''}" transform="translate(${p.x},${p.y})"><circle r="${i===5?22:12}"/><circle r="3" class="node-core"/><text y="${i===5?43:32}" text-anchor="middle">${p.label}</text><text class="node-sub" y="${i===5?63:51}" text-anchor="middle">${p.sub}</text></g>`).join('')}</svg><div class="measures">${['自己決定','共同の保障','規則の固定'].map((label,i)=>`<div><span>${label}</span><meter min="0" max="100" value="${vals[i]}" aria-label="${label}の傾向 ${vals[i]}"></meter><small>${vals[i]>60?'強まる':vals[i]<40?'弱まる':'中間'}</small></div>`).join('')}</div><p class="micro">五つの裁定の傾向。幸福度や成績ではありません。</p></div>`;
 }
-function shell(content,aside,extra=''){return `<section class="room-layout ${extra}"><div class="room-content">${content}</div><aside class="room-aside">${aside}</aside></section>`;}
+function readingNote(){
+  const notes={
+    city:'何を守るための裁定か。その結果、誰が何を引き受けることになるかを見てください。',
+    ending:'選んだ理由と、街に残った結果を並べてください。次は、その結果を受け取る席から読み直します。',
+    theatre:'席が変わっても、初めの裁定は同じです。受け取る側に立ったとき、理由の見え方が変わるか確かめてください。',
+    desk:'ご自身の判断にも、この机の論証にも、採用できない前提があれば異議を。何が足りないかを言葉にしてください。',
+    archive:'変わった考えにも、変わらなかった理由にも、残す意味があります。初めの言葉と並べて、持ち帰るものを選んでください。'
+  };
+  return `<aside class="passage-note"><span class="eyebrow" data-i18n-ignore>READING NOTE</span><p>${notes[draft.stage]}</p></aside>`;
+}
+function shell(content,aside,extra=''){return `<section class="room-layout ${extra}"><div class="room-content">${readingNote()}${content}</div><aside class="room-aside">${aside}</aside></section>`;}
 function render(focus=true){
   updateChrome();
   if(!draft)main.innerHTML=entryHTML;
