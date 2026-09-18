@@ -1,18 +1,19 @@
 {
   "version": 1,
-  "total": 3,
+  "total": 4,
   "months": [
     {
       "month": "2026-09",
-      "path": "data/2026-09-2cfb9d4a4cf8e237.json",
-      "count": 3,
+      "path": "data/2026-09-90f74378294187c3.json",
+      "count": 4,
       "personas": {
+        "chronoa": 1,
         "lacrevex": 2,
         "vel": 1
       },
       "media": {
-        "hold": 1,
-        "text": 2
+        "text": 3,
+        "hold": 1
       }
     }
   ]
