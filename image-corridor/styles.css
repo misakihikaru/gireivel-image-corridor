@@ -215,8 +215,13 @@ img {
 
 .corridor-stage {
   position: relative;
-  height: 900vh;
   background: var(--black-soft);
+}
+
+/* These long rooms stay still; only each newly encountered image settles. */
+body[data-manor-room="image-corridor"] :is(.corridor-stage, .zero-layer, .exit).manor-arrived {
+  animation: none;
+  translate: none;
 }
 
 .corridor-sticky {
@@ -229,29 +234,27 @@ img {
 .corridor-track {
   display: flex;
   align-items: center;
-  gap: clamp(72px, 9vw, 150px);
-  width: max-content;
+  width: 100%;
   height: 100%;
-  padding: 86px max(var(--side), 9vw) 70px;
+  padding: 140px 0 80px;
   will-change: transform;
 }
 
 .art-panel {
   display: grid;
-  flex: 0 0 auto;
-  grid-template-columns: minmax(240px, 52svh) minmax(240px, 340px);
-  gap: clamp(28px, 4vw, 64px);
-  align-items: end;
-  width: min(860px, 82vw);
-  opacity: 0.38;
-  filter: grayscale(24%) brightness(0.68);
-  transform: scale(0.965);
-  transform-origin: center;
-  transition: opacity 700ms ease, filter 700ms ease, transform 700ms ease;
+  flex: 0 0 100%;
+  grid-template-columns: minmax(0, 640px) minmax(0, 300px);
+  gap: clamp(40px, 6vw, 96px);
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+  padding-inline: max(40px, 7vw);
+  scroll-margin-top: 150px;
 }
 
 .art-panel:nth-child(even) {
-  grid-template-columns: minmax(240px, 340px) minmax(240px, 52svh);
+  grid-template-columns: minmax(0, 300px) minmax(0, 640px);
 }
 
 .art-panel:nth-child(even) .art-image-button {
@@ -262,10 +265,13 @@ img {
   grid-row: 1;
 }
 
-.art-panel.is-active {
-  opacity: 1;
-  filter: grayscale(0) brightness(1);
-  transform: scale(1);
+.art-image-button.has-arrived img {
+  animation: image-settle 520ms ease-out;
+}
+
+@keyframes image-settle {
+  from { opacity: .55; }
+  to { opacity: 1; }
 }
 
 .art-image-button {
@@ -274,8 +280,8 @@ img {
   width: 100%;
   padding: 0;
   overflow: hidden;
-  border: 1px solid var(--line);
-  background: #030303;
+  border: 0;
+  background: transparent;
   cursor: zoom-in;
 }
 
@@ -294,17 +300,13 @@ img {
 
 .art-image-button img {
   width: 100%;
-  height: min(66svh, 720px);
-  object-fit: cover;
-  transition: transform 700ms ease;
-}
-
-.art-panel.is-active .art-image-button img {
-  transform: scale(1.012);
+  height: min(64svh, 700px);
+  object-fit: contain;
 }
 
 .art-caption {
-  padding-bottom: 18px;
+  min-width: 0;
+  padding-block: 24px;
 }
 
 .art-number {
@@ -313,7 +315,8 @@ img {
   gap: 14px;
   color: var(--muted);
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 0.68rem;
+  font-size: 12px;
+  letter-spacing: 0;
   text-transform: uppercase;
 }
 
@@ -326,8 +329,9 @@ img {
 
 .observation-text {
   margin: 24px 0 0;
-  font-size: clamp(1.2rem, 2.2vw, 1.75rem);
-  line-height: 1.8;
+  font-size: 20px;
+  line-height: 2;
+  overflow-wrap: anywhere;
   white-space: pre-line;
 }
 
@@ -335,7 +339,7 @@ img {
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
-  margin-top: 30px;
+  margin-top: 26px;
   color: var(--muted);
   font-size: 0.74rem;
 }
@@ -365,29 +369,26 @@ img {
 
 .zero-layer {
   display: grid;
-  grid-template-columns: minmax(240px, 0.7fr) minmax(300px, 1fr);
-  gap: clamp(56px, 12vw, 180px);
-  min-height: 140svh;
-  padding: clamp(120px, 18vw, 260px) var(--side);
+  grid-template-columns: minmax(0, .8fr) minmax(0, 1fr);
+  gap: clamp(64px, 10vw, 144px);
+  padding: 180px max(var(--side), calc((100% - 1100px) / 2));
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
-  background:
-    linear-gradient(90deg, transparent 49.95%, var(--line) 50%, transparent 50.05%),
-    #070707;
+  background: #070707;
 }
 
 .zero-layer-heading {
   position: sticky;
-  top: 34vh;
+  top: max(160px, 30svh);
   align-self: start;
 }
 
 .zero-layer-heading h2 {
   margin: 18px 0 12px;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(2.8rem, 6vw, 6rem);
+  font-size: 48px;
   font-weight: 400;
-  line-height: 0.95;
+  line-height: 1.2;
   text-transform: uppercase;
 }
 
@@ -398,9 +399,9 @@ img {
 
 .zero-layer-copy {
   display: grid;
-  gap: 54px;
+  gap: 48px;
   color: rgba(232, 226, 216, 0.72);
-  font-size: clamp(1.08rem, 1.7vw, 1.36rem);
+  font-size: 18px;
   line-height: 2;
 }
 
@@ -410,7 +411,8 @@ img {
 
 .zero-layer-copy .zero-emphasis {
   color: var(--ivory);
-  font-size: clamp(1.8rem, 3.4vw, 3.4rem);
+  font-size: 30px;
+  padding-block: 20px;
 }
 
 .zero-layer-copy small {
@@ -418,7 +420,7 @@ img {
   color: var(--muted);
   font-family: Georgia, "Times New Roman", serif;
   font-size: 0.7rem;
-  letter-spacing: 0.16em;
+  letter-spacing: 0;
   text-transform: uppercase;
 }
 
@@ -449,9 +451,7 @@ img {
 .archive-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1px;
-  background: var(--line);
-  border: 1px solid var(--line);
+  gap: 56px 32px;
 }
 
 .archive-item {
@@ -469,23 +469,16 @@ img {
 }
 
 .archive-thumb {
+  display: block;
   overflow: hidden;
   aspect-ratio: 4 / 5;
-  background: #030303;
+  background: transparent;
 }
 
 .archive-thumb img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  filter: grayscale(22%) brightness(0.72);
-  transition: filter 320ms ease, transform 500ms ease;
-}
-
-.archive-button:hover img,
-.archive-button:focus-visible img {
-  filter: grayscale(0) brightness(1);
-  transform: scale(1.025);
+  object-fit: contain;
 }
 
 .archive-meta {
@@ -494,7 +487,7 @@ img {
   justify-content: space-between;
   gap: 16px;
   min-height: 76px;
-  padding: 18px 20px;
+  padding: 18px 0;
   border-top: 1px solid var(--line);
 }
 
@@ -506,18 +499,20 @@ img {
 }
 
 .archive-meta span {
-  overflow: hidden;
   color: var(--muted);
   font-size: 0.7rem;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  line-height: 1.8;
+}
+
+.archive-meta > span > span + span::before {
+  content: " / ";
 }
 
 .exit {
   display: grid;
   place-items: center;
   min-height: 120svh;
-  padding: 120px var(--side);
+  padding: 160px var(--side) 112px;
   border-top: 1px solid var(--line);
   text-align: center;
 }
@@ -529,7 +524,7 @@ img {
 .exit h2 {
   margin: 18px 0 0;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(4.5rem, 11vw, 9rem);
+  font-size: 64px;
   font-weight: 400;
   line-height: 0.9;
   text-transform: uppercase;
@@ -538,9 +533,9 @@ img {
 .exit-copy {
   display: grid;
   gap: 34px;
-  margin-top: clamp(60px, 10vw, 110px);
+  margin-top: 72px;
   color: rgba(232, 226, 216, 0.76);
-  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  font-size: 18px;
   line-height: 2;
 }
 
@@ -550,7 +545,7 @@ img {
 
 .exit-copy .exit-name {
   color: var(--ivory);
-  font-size: clamp(1.35rem, 2.4vw, 2rem);
+  font-size: 26px;
 }
 
 .archive-link {
@@ -585,14 +580,15 @@ img {
 
 .exit-actions {
   display: grid;
-  gap: 20px;
+  gap: 32px;
   justify-items: center;
   margin-top: 32px;
 }
 
 .observe-again-button,
 .world-return-button {
-  padding: 0 0 8px;
+  min-height: 44px;
+  padding: 10px 0;
   border-bottom: 1px solid transparent;
   background: transparent;
   color: var(--muted);
@@ -624,7 +620,10 @@ img {
 }
 
 .manor-return-link {
-  padding: 0 0 8px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 10px 0;
   border-bottom: 1px solid transparent;
   color: rgba(232, 226, 216, 0.86);
   font-size: 1rem;
@@ -650,20 +649,20 @@ img {
   place-items: center;
   margin: 0;
   padding: var(--side);
-  background: rgba(0, 0, 0, 0.94);
+  background: #000;
   color: rgba(232, 226, 216, 0.84);
-  font-size: clamp(1.55rem, 3.2vw, 3rem);
+  font-size: 36px;
   line-height: 1.8;
   opacity: 0;
   pointer-events: none;
   text-align: center;
-  transform: translateY(10px);
-  transition: opacity 900ms ease, transform 900ms ease;
+  visibility: hidden;
+  transition: opacity 800ms ease, visibility 800ms;
 }
 
 .world-return-message.is-visible {
   opacity: 1;
-  transform: translateY(0);
+  visibility: visible;
 }
 
 .archive-page {
@@ -722,12 +721,12 @@ img {
 .image-modal {
   width: 100vw;
   max-width: none;
-  height: 100svh;
+  height: 100dvh;
   max-height: none;
   margin: 0;
-  padding: clamp(24px, 5vw, 70px);
+  padding: 76px max(24px, env(safe-area-inset-right)) max(28px, env(safe-area-inset-bottom));
   border: 0;
-  background: rgba(5, 5, 5, 0.96);
+  background: #050505;
   color: var(--ivory);
   opacity: 0;
   transition: opacity 220ms ease, display 220ms allow-discrete;
@@ -761,16 +760,18 @@ img {
 
 .modal-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(220px, 320px);
-  gap: clamp(30px, 6vw, 90px);
-  align-items: end;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(180px, 1fr) auto;
+  gap: 24px;
   width: min(1280px, 100%);
   height: 100%;
+  min-height: 0;
   margin: auto;
 }
 
 .modal-image-wrap {
   min-width: 0;
+  min-height: 0;
   height: 100%;
 }
 
@@ -781,12 +782,14 @@ img {
 }
 
 .modal-caption {
-  padding-bottom: 4vh;
+  width: min(680px, 100%);
+  margin-inline: auto;
+  text-align: center;
 }
 
 .modal-caption > p:last-child {
-  margin: 22px 0 0;
-  font-size: clamp(1.2rem, 2vw, 1.6rem);
+  margin: 12px 0 0;
+  font-size: 18px;
   line-height: 1.8;
   white-space: pre-line;
 }
@@ -801,6 +804,37 @@ img {
   padding: 16px;
   background: var(--red);
   text-align: center;
+}
+
+:is(button, a):focus-visible {
+  outline: 1px solid var(--ivory);
+  outline-offset: 5px;
+}
+
+@media (max-width: 760px), (max-height: 620px), (prefers-reduced-motion: reduce) {
+  .corridor-stage { height: auto !important; }
+  .corridor-sticky { position: relative; height: auto; overflow: visible; }
+  .corridor-track {
+    display: grid;
+    gap: 144px;
+    width: 100%;
+    height: auto;
+    padding: 160px var(--side);
+    transform: none !important;
+    will-change: auto;
+  }
+  .art-panel, .art-panel:nth-child(even) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+    width: min(680px, 100%);
+    padding: 0;
+    margin-inline: auto;
+  }
+  .art-panel:nth-child(even) .art-image-button { grid-column: auto; }
+  .art-panel:nth-child(even) .art-caption { grid-row: auto; }
+  .art-image-button img { height: auto; max-height: 74svh; object-fit: contain; }
+  .art-caption { width: min(520px, 100%); padding-block: 0; }
+  .corridor-progress { display: none; }
 }
 
 @media (max-width: 760px) {
@@ -820,63 +854,29 @@ img {
     font-size: clamp(3.4rem, 19vw, 6rem);
   }
 
-  .corridor-stage {
-    height: auto !important;
-  }
-
-  .corridor-sticky {
-    position: relative;
-    height: auto;
-    overflow: visible;
-  }
-
-  .corridor-track {
-    display: grid;
-    gap: 120px;
-    width: 100%;
-    height: auto;
-    padding: 110px var(--side);
-    transform: none !important;
-  }
-
-  .art-panel,
-  .art-panel:nth-child(even) {
-    grid-template-columns: 1fr;
-    gap: 28px;
-    width: 100%;
-  }
-
-  .art-panel:nth-child(even) .art-image-button {
-    grid-column: auto;
-  }
-
-  .art-panel:nth-child(even) .art-caption {
-    grid-row: auto;
-  }
-
-  .art-image-button img {
-    height: auto;
-    max-height: 74svh;
-    object-fit: contain;
-  }
-
   .observation-text {
-    font-size: 1.15rem;
-  }
-
-  .corridor-progress {
-    display: none;
+    font-size: 17px;
   }
 
   .zero-layer {
     grid-template-columns: 1fr;
     min-height: 0;
+    padding: 160px var(--side) 112px;
     background: #070707;
   }
 
   .zero-layer-heading {
     position: static;
   }
+
+  .zero-layer-heading h2 { font-size: 36px; }
+  .zero-layer-copy { font-size: 17px; gap: 38px; }
+  .zero-layer-copy .zero-emphasis { font-size: 26px; }
+  .exit { padding-block: 160px 88px; }
+  .exit h2 { font-size: 48px; }
+  .exit-copy { font-size: 16px; }
+  .exit-copy .exit-name { font-size: 22px; }
+  .world-return-message { font-size: 26px; }
 
   .archive-heading {
     align-items: start;
@@ -895,13 +895,17 @@ img {
 
   .modal-layout {
     grid-template-columns: 1fr;
-    grid-template-rows: minmax(0, 1fr) auto;
+    grid-template-rows: minmax(180px, 1fr) auto;
     gap: 20px;
   }
 
-  .modal-caption {
-    padding-bottom: 0;
-  }
+  .modal-caption > p:last-child { font-size: 16px; }
+}
+
+@media (max-height: 620px) and (min-width: 761px) {
+  .image-modal { padding: 64px 40px 24px; }
+  .modal-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 280px); grid-template-rows: minmax(0, 1fr); align-items: center; }
+  .modal-caption { text-align: left; }
 }
 
 @media (max-width: 430px) {

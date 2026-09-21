@@ -82,11 +82,20 @@ const modalText = document.querySelector("[data-modal-text]");
 const modalClose = document.querySelector("[data-modal-close]");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 const mobileLayout = window.matchMedia("(max-width: 760px)");
+const shortLayout = window.matchMedia("(max-height: 620px)");
 
-let activeObserver;
 let ticking = false;
 let lastFocusedElement;
+let preserveFocusPosition = false;
 let worldReturnTimer;
+let panels = [];
+let activeId = "01";
+let wasVertical = isVerticalLayout();
+let insideCorridor = false;
+
+function isVerticalLayout() {
+  return mobileLayout.matches || shortLayout.matches || reducedMotion.matches;
+}
 
 function createTagMarkup(tags) {
   return tags.map((tag) => `<span>${tag}</span>`).join("");
@@ -105,7 +114,7 @@ function renderObservations() {
           <img src="${observation.image}" alt="${observation.alt}" loading="lazy">
         </button>
         <div class="art-caption">
-          <p class="art-number">Observation ${observation.id}</p>
+          <p class="art-number" data-i18n-ignore>Observation ${observation.id}</p>
           <p class="observation-text">${observation.text}</p>
           <div class="tags">${createTagMarkup(observation.tags)}</div>
         </div>
@@ -126,8 +135,8 @@ function renderObservations() {
             <img src="${observation.image}" alt="" loading="lazy">
           </span>
           <span class="archive-meta">
-            <strong>Observation ${observation.id}</strong>
-            <span>${observation.tags.join(" / ")}</span>
+            <strong data-i18n-ignore>Observation ${observation.id}</strong>
+            <span>${createTagMarkup(observation.tags)}</span>
           </span>
         </button>
       </article>
@@ -140,51 +149,37 @@ function renderObservations() {
 }
 
 function setActiveObservation(id) {
-  document.querySelectorAll("[data-observation]").forEach((panel) => {
+  activeId = id;
+  panels.forEach((panel) => {
     panel.classList.toggle("is-active", panel.dataset.observation === id);
   });
-  if (currentObservation) currentObservation.textContent = id;
+  if (currentObservation && currentObservation.textContent !== id) currentObservation.textContent = id;
 }
 
-function setupObservationObserver() {
-  activeObserver?.disconnect();
-  const panels = document.querySelectorAll("[data-observation]");
-  if (!corridorViewport || panels.length === 0) return;
-
-  activeObserver = new IntersectionObserver(
-    (entries) => {
-      const visible = entries
-        .filter((entry) => entry.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-
-      if (visible[0]) {
-        setActiveObservation(visible[0].target.dataset.observation);
-      }
-    },
-    {
-      root: mobileLayout.matches ? null : corridorViewport,
-      rootMargin: mobileLayout.matches ? "-30% 0px -30% 0px" : "0px -28% 0px -28%",
-      threshold: [0.15, 0.35, 0.6]
-    }
-  );
-
-  panels.forEach((panel) => {
-    activeObserver.observe(panel);
-  });
+function setupArrivalObserver() {
+  if (!("IntersectionObserver" in window)) return;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      // No persistent dimming, and no repeated animation on a return visit.
+      if (!reducedMotion.matches) entry.target.classList.add("has-arrived");
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: .2 });
+  document.querySelectorAll(".art-image-button").forEach(button => observer.observe(button));
 }
 
 function measureCorridor() {
   if (!corridorStage || !corridorTrack || !corridorProgress) return;
 
-  if (mobileLayout.matches) {
+  if (isVerticalLayout()) {
     corridorStage.style.height = "auto";
     corridorTrack.style.transform = "none";
     corridorProgress.style.width = "0";
-    return;
+  } else {
+    const travel = Math.max(0, corridorTrack.scrollWidth - corridorViewport.clientWidth);
+    corridorStage.style.height = `${travel + corridorViewport.clientHeight}px`;
   }
-
-  const travel = Math.max(0, corridorTrack.scrollWidth - window.innerWidth);
-  corridorStage.style.height = `${travel + window.innerHeight}px`;
   updateCorridor();
 }
 
@@ -194,18 +189,54 @@ function updateCorridor() {
     return;
   }
 
-  if (mobileLayout.matches) {
+  if (wasVertical !== isVerticalLayout()) {
+    updateLayout();
+    return;
+  }
+  const stageBounds = corridorStage.getBoundingClientRect();
+  insideCorridor = stageBounds.top <= innerHeight / 2 && stageBounds.bottom >= innerHeight / 2;
+
+  if (isVerticalLayout()) {
+    const nearest = panels.map(panel => {
+      const rect = panel.getBoundingClientRect();
+      return { panel, distance: Math.abs(rect.top + rect.height / 2 - innerHeight / 2) };
+    }).sort((a, b) => a.distance - b.distance)[0];
+    if (nearest) setActiveObservation(nearest.panel.dataset.observation);
     ticking = false;
     return;
   }
 
   const stageTop = corridorStage.offsetTop;
-  const travel = Math.max(0, corridorTrack.scrollWidth - window.innerWidth);
+  const travel = Math.max(0, corridorTrack.scrollWidth - corridorViewport.clientWidth);
   const progress = Math.min(1, Math.max(0, (window.scrollY - stageTop) / Math.max(travel, 1)));
 
   corridorTrack.style.transform = `translate3d(${-travel * progress}px, 0, 0)`;
   corridorProgress.style.width = `${progress * 100}%`;
+  const index = Math.min(panels.length - 1, Math.round(travel * progress / corridorViewport.clientWidth));
+  if (panels[index]) setActiveObservation(panels[index].dataset.observation);
   ticking = false;
+}
+
+function showPanel(panel, behavior = "instant") {
+  if (!panel) return;
+  if (isVerticalLayout()) {
+    panel.scrollIntoView({ behavior, block: "start" });
+  } else {
+    // Native focus can scroll an overflow-hidden viewport independently of the track.
+    corridorViewport.scrollLeft = 0;
+    window.scrollTo({ top: corridorStage.offsetTop + panel.offsetLeft, behavior });
+    updateCorridor();
+  }
+}
+
+function updateLayout() {
+  const vertical = isVerticalLayout();
+  // Media-query styles have already changed geometry when their event arrives.
+  const preservePosition = insideCorridor && wasVertical !== vertical;
+  const current = panels.find(panel => panel.dataset.observation === activeId);
+  wasVertical = vertical;
+  measureCorridor();
+  if (preservePosition) showPanel(current);
 }
 
 function requestCorridorUpdate() {
@@ -217,28 +248,37 @@ function requestCorridorUpdate() {
 
 function openModal(id) {
   const observation = observations.find((item) => item.id === id);
-  if (!observation || !modal) return;
+  if (!observation || !modal || modal.open) return;
 
   lastFocusedElement = document.activeElement;
   modalImage.src = observation.image;
   modalImage.alt = observation.alt;
   modalNumber.textContent = `Observation ${observation.id}`;
   modalText.textContent = observation.text;
+  window.GireivelI18n?.refresh(modal);
   modal.showModal();
   document.body.classList.add("is-modal-open");
-  modalClose.focus();
+  modalClose.focus({ preventScroll: true });
 }
 
 function closeModal() {
   if (!modal?.open) return;
+  preserveFocusPosition = true;
   modal.close();
+  restoreModalFocus();
+}
+
+function restoreModalFocus() {
+  if (!document.body.classList.contains("is-modal-open")) return;
   document.body.classList.remove("is-modal-open");
-  lastFocusedElement?.focus();
+  lastFocusedElement?.focus({ preventScroll: true });
+  preserveFocusPosition = false;
 }
 
 renderObservations();
+panels = [...document.querySelectorAll("[data-observation]")];
 if (corridorTrack) setActiveObservation("01");
-setupObservationObserver();
+setupArrivalObserver();
 
 document.addEventListener("click", (event) => {
   const trigger = event.target.closest("[data-open-observation]");
@@ -246,11 +286,25 @@ document.addEventListener("click", (event) => {
 });
 
 enterButton?.addEventListener("click", () => {
-  corridorStage.scrollIntoView({ behavior: reducedMotion.matches ? "auto" : "smooth" });
+  preserveFocusPosition = true;
+  panels[0]?.querySelector("button").focus({ preventScroll: true });
+  preserveFocusPosition = false;
+  showPanel(panels[0], reducedMotion.matches ? "instant" : "smooth");
 });
 
 returnButton?.addEventListener("click", () => {
+  enterButton?.focus({ preventScroll: true });
   window.scrollTo({ top: 0, behavior: reducedMotion.matches ? "auto" : "smooth" });
+});
+
+corridorTrack?.addEventListener("focusin", event => {
+  const panel = event.target.closest("[data-observation]");
+  if (!modal?.open && !preserveFocusPosition && event.target.matches(":focus-visible") && panel) {
+    const bounds = panel.getBoundingClientRect();
+    if (!isVerticalLayout() && (corridorViewport.scrollLeft !== 0 || bounds.left < -1 || bounds.right > innerWidth + 1 || bounds.top < 0 || bounds.bottom > innerHeight)) {
+      showPanel(panel);
+    }
+  }
 });
 
 worldReturnButton?.addEventListener("click", () => {
@@ -264,6 +318,14 @@ worldReturnButton?.addEventListener("click", () => {
 });
 
 modalClose?.addEventListener("click", closeModal);
+modal?.addEventListener("close", restoreModalFocus);
+modal?.addEventListener("keydown", event => {
+  // The close button is the only control in this image viewer.
+  if (event.key === "Tab") {
+    event.preventDefault();
+    modalClose.focus({ preventScroll: true });
+  }
+});
 
 modal?.addEventListener("click", (event) => {
   if (event.target === modal) closeModal();
@@ -278,10 +340,10 @@ if (corridorStage) {
   window.addEventListener("scroll", requestCorridorUpdate, { passive: true });
 }
 
-window.addEventListener("resize", () => {
-  measureCorridor();
-  setupObservationObserver();
-});
+window.addEventListener("resize", updateLayout);
+reducedMotion.addEventListener("change", updateLayout);
+mobileLayout.addEventListener("change", updateLayout);
+shortLayout.addEventListener("change", updateLayout);
 
 window.addEventListener("load", measureCorridor);
 measureCorridor();

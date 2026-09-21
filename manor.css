@@ -94,6 +94,50 @@ html.manor-paused *, html.manor-paused *::before, html.manor-paused *::after { a
   .passage-route li { grid-template-columns: minmax(0, 1fr); gap: 5px; }
   .passage-note { padding-left: 14px; margin-bottom: 26px; }
 }
+/* Image Corridor release: other rooms retain their published presentation. */
+body[data-manor-room="image-corridor"] { --manor-rule: rgba(232,226,216,.18); }
+body[data-manor-room="image-corridor"] :is(h2, h3) { letter-spacing: 0; }
+body[data-manor-room="image-corridor"] .section-label { color: #b0a79d; }
+body[data-manor-room="image-corridor"] .entrance-copy { font-size: 17px; line-height: 2.1; }
+body[data-manor-room="image-corridor"] .site-header { z-index: 60; }
+body[data-manor-room="image-corridor"] .manor-seal { width: 38px !important; height: 48px !important; border: 0 !important; flex: 0 0 38px; }
+body[data-manor-room="image-corridor"] .manor-seal img { display: block; width: 38px; height: 48px; object-fit: cover; }
+body[data-manor-room="image-corridor"] .manor-tools { z-index: 70; border-bottom-color: rgba(232,226,216,.22); }
+body[data-manor-room="image-corridor"] .manor-tools .language-switch { border: 0; background: none; backdrop-filter: none; }
+body[data-manor-room="image-corridor"] .manor-tools .language-switch::before { background: transparent; border: 0; border-bottom: 1px solid #a45249; }
+body[data-manor-room="image-corridor"] .manor-tools .language-option { height: 28px; }
+body[data-manor-room="image-corridor"].is-map-open .manor-tools { visibility: hidden; }
+body[data-manor-room="image-corridor"] .manor-navigation { background: #090909 url('./assets/images/gireivel-emblem.jpg') center 88% / 130px auto no-repeat; }
+body[data-manor-room="image-corridor"] .manor-navigation nav { background: #090909; }
+body[data-manor-room="image-corridor"] .manor-navigation a { align-items: baseline; }
+body[data-manor-room="image-corridor"] .manor-navigation a span:last-child { min-width: 0; overflow-wrap: anywhere; }
+body[data-manor-room="image-corridor"] :is(.enter-button, .archive-link) { position: relative; gap: 24px; }
+body[data-manor-room="image-corridor"] .enter-button::after {
+  content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 1px;
+  background: #ad5b50; transform: scaleX(0); transform-origin: left; transition: transform 700ms ease;
+}
+body[data-manor-room="image-corridor"] .enter-button:is(:hover, :focus-visible)::after { transform: scaleX(1); }
+body[data-manor-room="image-corridor"] .enter-button:is(:hover, :focus-visible) { gap: 24px; }
+body[data-manor-room="image-corridor"] .entrance {
+  min-height: 92svh; padding-top: 168px; padding-bottom: 96px; isolation: isolate;
+  background: linear-gradient(90deg, rgba(5,5,5,.9), rgba(5,5,5,.35) 66%, rgba(5,5,5,.18)),
+    url('./assets/hero-gireivel.png') center / cover no-repeat;
+}
+body[data-manor-room="image-corridor"] .entrance-content { width: 100%; text-align: left; padding-inline: 36px; }
+body[data-manor-room="image-corridor"] .entrance h1 { font-size: 76px; max-width: 100%; }
+body[data-manor-room="image-corridor"] .entrance-copy { max-width: 580px; margin: 44px 0 0; }
+body[data-manor-room="image-corridor"] :is(.zero-layer-copy, .exit-copy) { max-width: 640px; margin-inline: auto; line-height: 2.2; }
+@media (min-width: 1000px) {
+  body[data-manor-room="image-corridor"] > .site-header { padding-top: 16px; min-height: 88px; height: 88px; }
+  body[data-manor-room="image-corridor"] > .site-header > :last-child { margin-right: 230px; }
+  body[data-manor-room="image-corridor"] { --header-height: 96px; }
+}
+@media (max-width: 700px) {
+  body[data-manor-room="image-corridor"] .entrance { padding-top: 158px; background-position: 62% center; }
+  body[data-manor-room="image-corridor"] .entrance-content { padding-inline: 8px; }
+  body[data-manor-room="image-corridor"] .entrance h1 { font-size: 44px; }
+  body[data-manor-room="image-corridor"] .entrance-copy { margin-top: 36px; font-size: 16px; }
+}
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto !important; }
   *, *::before, *::after { animation: none !important; transition: none !important; }

@@ -1,6 +1,22 @@
 (() => {
   const base = new URL('.', document.currentScript.src);
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const room = (window.GireivelRooms || []).find(item => location.pathname.startsWith(new URL(item.href, base).pathname));
+  if (room?.id === 'image-corridor') {
+    document.body.dataset.manorRoom = room.id;
+    // Publish the corridor's seal without changing other rooms' pending presentation.
+    document.querySelectorAll('.site-mark > span:first-child').forEach(mark => {
+      if (mark.textContent.trim() !== 'G') return;
+      const seal = document.createElement('img');
+      seal.src = new URL('assets/images/gireivel-emblem.jpg', base).href;
+      seal.alt = '';
+      seal.width = 38;
+      seal.height = 48;
+      mark.classList.add('manor-seal');
+      mark.setAttribute('aria-hidden', 'true');
+      mark.replaceChildren(seal);
+    });
+  }
   const fixedHeadings = () => {
     document.querySelectorAll('h1[data-i18n-ignore], h1[data-manor-english]').forEach(el => { el.dataset.manorEnglish = ''; el.lang = 'en'; });
   };
