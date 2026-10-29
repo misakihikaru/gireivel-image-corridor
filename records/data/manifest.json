@@ -1,20 +1,20 @@
 {
   "version": 1,
-  "total": 21,
+  "total": 22,
   "months": [
     {
       "month": "2026-10",
-      "path": "data/2026-10-3d2061c455c84a1d.json",
-      "count": 13,
+      "path": "data/2026-10-20e3a66747f670b7.json",
+      "count": 14,
       "personas": {
+        "lacrevex": 7,
         "rezel": 2,
-        "lacrevex": 6,
         "vel": 3,
         "chronoa": 2
       },
       "media": {
-        "hold": 6,
-        "text": 7
+        "text": 8,
+        "hold": 6
       }
     },
     {
