@@ -1,7 +1,18 @@
 {
   "version": 1,
-  "total": 22,
+  "total": 23,
   "months": [
+    {
+      "month": "2026-11",
+      "path": "data/2026-11-e013b622e7789279.json",
+      "count": 1,
+      "personas": {
+        "rezel": 1
+      },
+      "media": {
+        "hold": 1
+      }
+    },
     {
       "month": "2026-10",
       "path": "data/2026-10-20e3a66747f670b7.json",
