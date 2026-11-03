@@ -1,16 +1,17 @@
 {
   "version": 1,
-  "total": 23,
+  "total": 24,
   "months": [
     {
       "month": "2026-11",
-      "path": "data/2026-11-e013b622e7789279.json",
-      "count": 1,
+      "path": "data/2026-11-cc56aa172ba5d02c.json",
+      "count": 2,
       "personas": {
+        "chronoa": 1,
         "rezel": 1
       },
       "media": {
-        "hold": 1
+        "hold": 2
       }
     },
     {
