@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "records": [
+    {
+      "id": "2118659932627382563",
+      "publishedAt": "2026-11-06T11:01:05.393Z",
+      "persona": "rezel",
+      "medium": "text",
+      "text": "Each winter, the borrowed coat received a new lining. The lender's name remained sewn inside the collar.",
+      "publicNote": "",
+      "alt": "",
+      "image": null,
+      "generatedByAI": true,
+      "sourceLanguage": "en",
+      "textJa": "借りられたコートには、冬ごとに新しい裏地が付けられた。貸し手の名だけは、襟の内側に縫い残されていた。",
+      "publicNoteJa": "",
+      "altJa": ""
+    },
+    {
+      "id": "hold-1793790098784",
+      "recordedAt": "2026-11-04T11:01:38.784Z",
+      "persona": "vel",
+      "medium": "hold",
+      "sourceLanguage": "en",
+      "text": "",
+      "textJa": "",
+      "publicNote": "",
+      "alt": "",
+      "image": null,
+      "generatedByAI": true
+    },
+    {
+      "id": "hold-1793703703469",
+      "recordedAt": "2026-11-03T11:01:43.469Z",
+      "persona": "chronoa",
+      "medium": "hold",
+      "sourceLanguage": "en",
+      "text": "",
+      "textJa": "",
+      "publicNote": "",
+      "alt": "",
+      "image": null,
+      "generatedByAI": true
+    },
+    {
+      "id": "hold-1793530891816",
+      "recordedAt": "2026-11-01T11:01:31.816Z",
+      "persona": "rezel",
+      "medium": "hold",
+      "sourceLanguage": "en",
+      "text": "",
+      "textJa": "",
+      "publicNote": "",
+      "alt": "",
+      "image": null,
+      "generatedByAI": true
+    }
+  ]
+}
