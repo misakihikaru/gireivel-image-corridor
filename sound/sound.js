@@ -154,7 +154,6 @@ function renderChamberPage(key) {
   if (!chamber || !chamberRoom) return;
 
   chamberRoom.innerHTML = createChamberMarkup(chamber);
-  document.title = `${chamber.name} | GIREIVEL SOUND CHAMBER`;
 
   window.requestAnimationFrame(() => {
     chamberRoom.classList.add("is-visible");
